@@ -27,12 +27,12 @@ CRELINE_STYLE_DICT = {
 }
 
 NOVELTY_STYLE_DICT = {
-    "TRAINING_0": {"color": "#525252", "label": "TRAINING gratings"}, # gray (darkest)
-    "TRAINING_1": {"color": "#525252", "label": "TRAINING gratings"}, 
-    "TRAINING_2": {"color": "#525252", "label": "TRAINING gratings"}, 
-    "TRAINING_3": {"color": "#bdbdbd", "label": "TRAINING images"},   
-    "TRAINING_4": {"color": "#bdbdbd", "label": "TRAINING images"},   
-    "TRAINING_5": {"color": "#bdbdbd", "label": "TRAINING images"}, 
+    "TRAINING_0": {"color": "#525252", "label": "training: gratings"}, # gray (darkest)
+    "TRAINING_1": {"color": "#525252", "label": "training: gratings"}, 
+    "TRAINING_2": {"color": "#525252", "label": "training: gratings"}, 
+    "TRAINING_3": {"color": "#bdbdbd", "label": "training: images"},   
+    "TRAINING_4": {"color": "#bdbdbd", "label": "training: images"},   
+    "TRAINING_5": {"color": "#bdbdbd", "label": "training: images"}, 
     "OPHYS_0":    {"color": "#f7f7f7", "label": "habituation"},       # light gray
     "OPHYS_1":    {"color": "#2166ac", "label": "familiar 1"},        # blue (dark)
     "OPHYS_2":    {"color": "#67a9cf", "label": "familiar 2"},        # blue (medium)
@@ -84,172 +84,9 @@ def get_novelty_style_for_stim_name(stimulus_name):
     return get_style_for_stim_name(NOVELTY_STYLE_DICT,
                                    stimulus_name)
 
-# STIM_NOVELTY_STYLE_DICT = {
-#     'TRAINING_0_gratings_autorewards_15min': {"color": TRAINING_STYLE_DICT["TRAINING_0"]["color"]}, 
-#     'TRAINING_1_gratings':                   {"color": TRAINING_STYLE_DICT["TRAINING_1"]["color"]}, 
-#     'TRAINING_2_gratings_flashed':           {"color": TRAINING_STYLE_DICT["TRAINING_2"]["color"]}, 
-#     'TRAINING_3_images_A_10uL_reward': {"color": TRAINING_STYLE_DICT["TRAINING_3"]["color"], "label": },
-#     'TRAINING_3_images_B_10uL_reward': {"color": TRAINING_STYLE_DICT["TRAINING_3"]["color"], "label": },
-#     'TRAINING_3_images_G_10uL_reward': {"color": TRAINING_STYLE_DICT["TRAINING_3"]["color"], "label": },
-#     'TRAINING_4_images_A_training':       {"color": TRAINING_STYLE_DICT["TRAINING_4"]["color"], "label": },
-#     'TRAINING_4_images_A_handoff_ready':  {"color": TRAINING_STYLE_DICT["TRAINING_4"]["color"], "label": },
-#     'TRAINING_4_images_A_handoff_lapsed': {"color": TRAINING_STYLE_DICT["TRAINING_4"]["color"], "label": },
-#     'TRAINING_4_images_B_training':       {"color": TRAINING_STYLE_DICT["TRAINING_4"]["color"], "label": },
-#     'TRAINING_4_images_G_training':       {"color": TRAINING_STYLE_DICT["TRAINING_4"]["color"], "label": },   
-#     'TRAINING_5_images_A_epilogue':       {"color": TRAINING_STYLE_DICT["TRAINING_5"]["color"], "label": },
-#     'TRAINING_5_images_A_handoff_ready':  {"color": TRAINING_STYLE_DICT["TRAINING_5"]["color"], "label": },
-#     'TRAINING_5_images_A_handoff_lapsed': {"color": TRAINING_STYLE_DICT["TRAINING_5"]["color"], "label": }, 
-#     'TRAINING_5_images_B_epilogue':       {"color": TRAINING_STYLE_DICT["TRAINING_5"]["color"], "label": },
-#     'TRAINING_5_images_B_handoff_ready':  {"color": TRAINING_STYLE_DICT["TRAINING_5"]["color"], "label": },
-#     'TRAINING_5_images_B_handoff_lapsed': {"color": TRAINING_STYLE_DICT["TRAINING_5"]["color"], "label": },
-#     'TRAINING_5_images_G_epilogue':       {"color": TRAINING_STYLE_DICT["TRAINING_5"]["color"], "label": },  
-#     'TRAINING_5_images_G_handoff_ready':  {"color": TRAINING_STYLE_DICT["TRAINING_5"]["color"], "label": },  
-#     'TRAINING_5_images_G_handoff_lapsed': {"color": TRAINING_STYLE_DICT["TRAINING_5"]["color"], "label": }, 
-#     'OPHYS_0_images_A_habituation': {"color": NOVELTY_STYLE_DICT["TRAINING_5"]["color"], "label": },
-#     'OPHYS_0_images_B_habituation': {"color": NOVELTY_STYLE_DICT["TRAINING_5"]["color"], "label": },
-#     'OPHYS_0_images_G_habituation': {"color": NOVELTY_STYLE_DICT["TRAINING_5"]["color"], "label": },
-#     'OPHYS_1_images_A': {"color": NOVELTY_STYLE_DICT["OPHYS_1"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_1"]['label']},  
-#     'OPHYS_1_images_B': {"color": NOVELTY_STYLE_DICT["OPHYS_1"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_1"]['label']},
-#     'OPHYS_1_images_G': {"color": NOVELTY_STYLE_DICT["OPHYS_1"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_1"]['label']},
-#     'OPHYS_2_images_A_passive': {"color": NOVELTY_STYLE_DICT["OPHYS_2"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_2"]['label']},
-#     'OPHYS_2_images_B_passive': {"color": NOVELTY_STYLE_DICT["OPHYS_2"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_2"]['label']},
-#     'OPHYS_2_images_G_passive': {"olor": NOVELTY_STYLE_DICT["OPHYS_2"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_2"]['label']},
-#     'OPHYS_3_images_A': {"color": NOVELTY_STYLE_DICT["OPHYS_3"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_3"]['label']},
-#     'OPHYS_3_images_B': {"color": NOVELTY_STYLE_DICT["OPHYS_3"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_3"]['label']},
-#     'OPHYS_3_images_G': {"color": NOVELTY_STYLE_DICT["OPHYS_3"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_3"]['label']},
-#     'OPHYS_4_images_B': {"color": NOVELTY_STYLE_DICT["OPHYS_4"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_4"]['label']},
-#     'OPHYS_4_images_A': {"color": NOVELTY_STYLE_DICT["OPHYS_4"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_4"]['label']},
-#     'OPHYS_4_images_H': {"color": NOVELTY_STYLE_DICT["OPHYS_4"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_4"]['label']},
-#     'OPHYS_5_images_B_passive': {"color": NOVELTY_STYLE_DICT["OPHYS_5"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_5"]['label']},
-#     'OPHYS_5_images_A_passive': {"color": NOVELTY_STYLE_DICT["OPHYS_5"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_5"]['label']},
-#     'OPHYS_5_images_H_passive': {"color": NOVELTY_STYLE_DICT["OPHYS_5"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_5"]['label']},
-#     'OPHYS_6_images_B': {"color": NOVELTY_STYLE_DICT["OPHYS_6"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_6"]['label']},
-#     'OPHYS_6_images_A': {"color": NOVELTY_STYLE_DICT["OPHYS_6"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_6"]['label']},
-#     'OPHYS_6_images_H': {"color": NOVELTY_STYLE_DICT["OPHYS_6"]["color"], "label": NOVELTY_STYLE_DICT["OPHYS_6"]['label']},
-# }
+# def generate_plot_title():
 
-# STIM_IMG_SET_STYLE_DICT = {
-#     'TRAINING_0_gratings_autorewards_15min': 
-#         {"color": IMAGE_SET_STYLE_DICT["gratings"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["gratings"]["label"]}, 
-#     'TRAINING_1_gratings':
-#         {"color": IMAGE_SET_STYLE_DICT["gratings"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["gratings"]["label"]}, 
-#     'TRAINING_2_gratings_flashed':
-#         {"color": IMAGE_SET_STYLE_DICT["gratings"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["gratings"]["label"]},
-#     'TRAINING_3_images_A_10uL_reward': 
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"], 
-#         "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'TRAINING_4_images_A_training':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'TRAINING_4_images_A_handoff_ready':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'TRAINING_4_images_A_handoff_lapsed':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'TRAINING_5_images_A_epilogue':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'TRAINING_5_images_A_handoff_ready':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'TRAINING_5_images_A_handoff_lapsed':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]}, 
-#     'OPHYS_0_images_A_habituation':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'OPHYS_1_images_A':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},  
-#     'OPHYS_2_images_A_passive':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'OPHYS_3_images_A':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'OPHYS_4_images_A':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'OPHYS_5_images_A_passive':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'OPHYS_6_images_A':
-#         {"color": IMAGE_SET_STYLE_DICT["A"]["color"], 
-#          "label": IMAGE_SET_STYLE_DICT["A"]["label"]},
-#     'TRAINING_3_images_B_10uL_reward':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'TRAINING_4_images_B_training':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'TRAINING_5_images_B_epilogue':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'TRAINING_5_images_B_handoff_ready':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'TRAINING_5_images_B_handoff_lapsed':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'OPHYS_0_images_B_habituation':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'OPHYS_1_images_B':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'OPHYS_2_images_B_passive':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'OPHYS_3_images_B':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'OPHYS_4_images_B':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'OPHYS_5_images_B_passive':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'OPHYS_6_images_B':
-#         {"color": IMAGE_SET_STYLE_DICT["B"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["B"]["label"]},
-#     'TRAINING_3_images_G_10uL_reward':
-#         {"color": IMAGE_SET_STYLE_DICT["G"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["G"]["label"]},
-#     'TRAINING_4_images_G_training':
-#         {"color": IMAGE_SET_STYLE_DICT["G"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["G"]["label"]},   
-#     'TRAINING_5_images_G_epilogue':
-#         {"color": IMAGE_SET_STYLE_DICT["G"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["G"]["label"]},  
-#     'TRAINING_5_images_G_handoff_ready':
-#         {"color": IMAGE_SET_STYLE_DICT["G"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["G"]["label"]},  
-#     'TRAINING_5_images_G_handoff_lapsed':
-#         {"color": IMAGE_SET_STYLE_DICT["G"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["G"]["label"]}, 
-#     'OPHYS_0_images_G_habituation':
-#         {"color": IMAGE_SET_STYLE_DICT["G"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["G"]["label"]},
-#     'OPHYS_1_images_G':
-#         {"color": IMAGE_SET_STYLE_DICT["G"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["G"]["label"]},
-#     'OPHYS_2_images_G_passive':
-#         {"color": IMAGE_SET_STYLE_DICT["G"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["G"]["label"]},
-#     'OPHYS_3_images_G':
-#         {"color": IMAGE_SET_STYLE_DICT["G"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["G"]["label"]},
-#     'OPHYS_4_images_H':
-#         {"color": IMAGE_SET_STYLE_DICT["H"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["H"]["label"]},
-#     'OPHYS_5_images_H_passive':
-#         {"color": IMAGE_SET_STYLE_DICT["H"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["H"]["label"]},
-#     'OPHYS_6_images_H':
-#         {"color": IMAGE_SET_STYLE_DICT["H"]["color"],
-#          "label": IMAGE_SET_STYLE_DICT["H"]["label"]},
-# }
+# def plot_timeseries(values, timestamps, color, label):
+#     sns.lineplot(x = values, y = timestamps, color = color, )
+
+
