@@ -27,22 +27,28 @@ CRELINE_STYLE_DICT = {
 }
 
 NOVELTY_STYLE_DICT = {
-    "OPHYS_0": {"color": "#f7f7f7", "label": "habituation"}, # light gray
-    "OPHYS_1": {"color": "#2166ac", "label": "familiar 1"},  # blue (dark)
-    "OPHYS_2": {"color": "#67a9cf", "label": "familiar 2"},  # blue (medium)
-    "OPHYS_3": {"color": "#d1e5f0", "label": "familiar 3"},  # blue (light)
-    "OPHYS_4": {"color": "#b2182b", "label": "novel 1"},     # red (dark)
-    "OPHYS_5": {"color": "#ef8a62", "label": "novel 2"},     # red (medium)
-    "OPHYS_6": {"color": "#fddbc7", "label": "novel 3"}      # red (light) 
+    "TRAINING_0": {"color": "#525252", "label": "TRAINING gratings"}, # gray (darkest)
+    "TRAINING_1": {"color": "#525252", "label": "TRAINING gratings"}, 
+    "TRAINING_2": {"color": "#525252", "label": "TRAINING gratings"}, 
+    "TRAINING_3": {"color": "#bdbdbd", "label": "TRAINING images"},   
+    "TRAINING_4": {"color": "#bdbdbd", "label": "TRAINING images"},   
+    "TRAINING_5": {"color": "#bdbdbd", "label": "TRAINING images"}, 
+    "OPHYS_0":    {"color": "#f7f7f7", "label": "habituation"},       # light gray
+    "OPHYS_1":    {"color": "#2166ac", "label": "familiar 1"},        # blue (dark)
+    "OPHYS_2":    {"color": "#67a9cf", "label": "familiar 2"},        # blue (medium)
+    "OPHYS_3":    {"color": "#d1e5f0", "label": "familiar 3"},        # blue (light)
+    "OPHYS_4":    {"color": "#b2182b", "label": "novel 1"},           # red (dark)
+    "OPHYS_5":    {"color": "#ef8a62", "label": "novel 2"},           # red (medium)
+    "OPHYS_6":    {"color": "#fddbc7", "label": "novel 3"}            # red (light) 
 }
 
 TRAINING_STYLE_DICT = {
-    'TRAINING_0': {"color": "#525252", "label": 'TRAINING 0 gratings'}, # gray (darkest)
-    'TRAINING_1': {"color": "#737373", "label": 'TRAINING 1 gratings'}, 
-    'TRAINING_2': {"color": "#969696", "label": 'TRAINING 2 gratings'}, 
-    'TRAINING_3': {"color": "#bdbdbd", "label": 'TRAINING 3 images'},   
-    'TRAINING_4': {"color": "#d9d9d9", "label": 'TRAINING 4 images'},   
-    'TRAINING_5': {"color": "#f7f7f7", "label": 'TRAINING 5 images'}    # gray (lightest)
+    "TRAINING_0": {"color": "#525252", "label": "TRAINING 0 gratings"}, # gray (darkest)
+    "TRAINING_1": {"color": "#737373", "label": "TRAINING 1 gratings"}, 
+    "TRAINING_2": {"color": "#969696", "label": "TRAINING 2 gratings"}, 
+    "TRAINING_3": {"color": "#bdbdbd", "label": "TRAINING 3 images"},   
+    "TRAINING_4": {"color": "#d9d9d9", "label": "TRAINING 4 images"},   
+    "TRAINING_5": {"color": "#f7f7f7", "label": "TRAINING 5 images"}    # gray (lightest)
 }
 
 
@@ -62,6 +68,21 @@ BEHAV_RESP_STYLE_DICT = {
     "aborted":        {"color": "#525252", "label": "aborted"}          # dark grey
 }
 
+def get_style_for_stim_name(dictionary, stimulus_name):
+    dict_keys = dictionary.keys()
+    for key in dict_keys:
+        if key in stimulus_name:
+            return dictionary[key]["color"], dictionary[key]["label"]
+        else:
+            print("Stimulus name cannot be aligned dictionary keys.")
+
+def get_image_set_style_for_stim_name(stimulus_name):
+    return get_style_for_stim_name(IMAGE_SET_STYLE_DICT,
+                                   stimulus_name)
+
+def get_novelty_style_for_stim_name(stimulus_name):
+    return get_style_for_stim_name(NOVELTY_STYLE_DICT,
+                                   stimulus_name)
 
 # STIM_NOVELTY_STYLE_DICT = {
 #     'TRAINING_0_gratings_autorewards_15min': {"color": TRAINING_STYLE_DICT["TRAINING_0"]["color"]}, 
