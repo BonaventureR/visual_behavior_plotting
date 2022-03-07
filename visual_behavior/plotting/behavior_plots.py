@@ -20,23 +20,24 @@ def plot_behavioral_streams(dataObject):
 
     if "ophys_experiment_id" in dataObject.list_data_attributes_and_methods():
         print("experiment=True")
-        fig, axes = plt.subplots(4, 1, figsize=(15, 8), sharex=True)
+        fig, axes = plt.subplots(3, 1, figsize=(15, 8), sharex=True)
         experiment = True
     else:
         fig, axes = plt.subplots(2, 1, figsize=(15, 8), sharex=True)
 
-    plot_running(dataObject, axes[0])
+    for ax in axes:
+        plot_stimuli(dataObject, ax)
 
+    plot_running(dataObject, axes[0])
     plot_licks(dataObject, axes[1])
     plot_rewards(dataObject, axes[1])
+
     axes[1].set_title("licks and rewards")
     axes[1].set_yticks([])
     axes[1].legend(["licks", "rewards"])
 
     if experiment:
         plot_pupil(dataObject, axes[2])
-        plot_dff(dataObject, axes[3])
-        axes[3].set_xlabel("time in session (seconds)")
 
     fig.tight_layout()
     return fig, axes
@@ -58,11 +59,9 @@ def plot_running(dataObject, ax=None):
     if ax is None:
         fig, ax = plt.subplots()
 
-    ax.plot(
-        dataObject.running_speed["timestamps"],
-        dataObject.running_speed["speed"],
-        color="black",
-    )
+    speed, timestamps = get_running_speed(dataObject)
+
+    ax.plot(timestamps, speed, color="black")
     ax.set_title("running speed")
     ax.set_ylabel("speed (cm/s)")
 
@@ -120,6 +119,23 @@ def plot_rewards(dataObject, ax=None, reward_type="all"):
     )
 
 
+def plot_stimuli(dataObject, ax):
+    """ __summary_ : 
+        plot stimuli as colored bars on specified axis
+    Parameters
+    ----------
+        dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+            Objects provided via allensdk.brain_observatory module
+        ax : (matplotlib.axes), optional
+            Figure axes
+    Returns
+    ----------
+    None
+    """
+    for _, stimulus in dataObject.stimulus_presentations.iterrows():
+        ax.axvspan(stimulus["start_time"], stimulus["stop_time"], alpha=0.5)
+
+
 def plot_pupil(dataObject, ax=None):
     """ __summary_ : 
         plot pupil area on specified axis
@@ -136,45 +152,14 @@ def plot_pupil(dataObject, ax=None):
     if ax is None:
         fig, ax = plt.subplots()
 
+    pupil_area, timestamps = get_pupil_area(dataObject)
+
     ax.plot(
-        dataObject.eye_tracking["timestamps"],
-        dataObject.eye_tracking["pupil_area"],
-        color="black",
+        timestamps, pupil_area, color="black",
     )
     ax.set_title("pupil area")
     ax.set_ylabel("pupil area\n$(pixels^2)$")
 
-def plot_dff(dataObject, ax=None, cell_specimen_ids=None):
-    """_summary_:
-        plot each cell's dff response for a given trial
-    Parameters
-    ----------
-    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
-        Objects provided via allensdk.brain_observatory module
-    ax : (matplotlib.axes), optional
-        Figure axes, by default None
-    cell_specimen_id : List, optional
-        Specific cell specimen id, by default None
-    """
-    if ax is None:
-      fig, ax = plt.subplots()
-    
-    if cell_specimen_id:
-        for cell_specimen_id in cell_specimen_ids:
-            ax.plot(
-                dataObject.tidy_dff_traces.query('cell_specimen_id == @cell_specimen_id')['timestamps'],
-                dataObject.tidy_dff_traces.query('cell_specimen_id == @cell_specimen_id')['dff']
-                )
-        return
-
-    for cell_specimen_id in dataObject.tidy_dff_traces['cell_specimen_id'].unique():
-      ax.plot(
-          dataObject.tidy_dff_traces.query('cell_specimen_id == @cell_specimen_id')['timestamps'],
-          dataObject.tidy_dff_traces.query('cell_specimen_id == @cell_specimen_id')['dff']
-          )
-        
-    ax.set_title('deltaF/F responses')
-    ax.set_ylabel('dF/F')
 
 if __name__ == "__main__":
     # make_plots(experiment_dataset) - test
