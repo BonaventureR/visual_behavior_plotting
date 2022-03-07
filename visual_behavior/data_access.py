@@ -1,10 +1,26 @@
 import os
 import numpy as np
 import pandas as pd
+import visual_behavior_plotting.visual_behavior.util as util
 
+def get_stimulus_name(dataset_obj):
+    """gets the stimulus name for a dataset object
+    Parameters
+    ----------
+    dataset_object : object
+        options: 
+        behavior session
+        ophys experiment object
 
+    Returns
+    -------
+    string
+        the stimulus name for a given session or experiment
+    """
+    stimulus_name = dataset_obj.metadata['session_type']
+    return stimulus_name
 
-def get_lick_timestamps(dataset_object):
+def get_lick_timestamps(dataset_obj):
     """_summary_
 
     Parameters
@@ -17,17 +33,16 @@ def get_lick_timestamps(dataset_object):
     array
         _description_
     """
-    lick_timestamps = dataset_object.licks["timestamps"]
+    lick_timestamps = dataset_obj.licks["timestamps"]
     return lick_timestamps
 
-
-def get_reward_timestamps(dataset_object, reward_type):
+def get_reward_timestamps(dataset_obj, reward_type):
     """_summary_
 
     Parameters
     ----------
-    dataset_object : behavior dataset object or ophys experiment object
-        _description_
+    dataset_object : visual behavior dataset object from the allen SDK
+        options
     reward_type : string
         options: 
             "all": all rewards (auto and earned)
@@ -40,7 +55,7 @@ def get_reward_timestamps(dataset_object, reward_type):
         arry of timestamps for rewards
     """
 
-    rewards_df = dataset_object.rewards
+    rewards_df = dataset_obj.rewards
     if reward_type == "all":
         reward_timestamps = rewards_df['timestamps']
     elif reward_type == "auto":
@@ -49,21 +64,51 @@ def get_reward_timestamps(dataset_object, reward_type):
         reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == False]["timestamps"]
     return reward_timestamps
 
-def get_stimulus_name(dataset_object):
-    """gets the stimulus name for a dataset object
+def get_running_speed(dataset_obj):
+    """_summary_
+
     Parameters
     ----------
-    dataset_object : object
-        behavior session or ophys experiment object
+    dataset_object : _type_
+        _description_
 
     Returns
     -------
-    string
-        the stimulus name for a given session or experiment
+    tuple: timestamps, running_speed
+        _description_
     """
-    stimulus_name = dataset_object.metadata['session_type']
-    return stimulus_name
+    running_speed = dataset_obj.running_speed["speed"].values
+    timestamps = dataset_obj.running_speed["timestamps"].values
+    return running_speed, timestamps
 
+def get_pupil_area(ophys_experiment_dataset_obj):
+    pupil_area = ophys_experiment_dataset_obj.eye_tracking["pupil_area"].values
+    timestamps = ophys_experiment_dataset_obj.eye_tracking["timestamps"].values
+    return pupil_area, timestamps
+
+def get_dff_trace(ophys_experiment_dataset_obj, cell_specimen_id = None):
+    """_summary_
+
+    Parameters
+    ----------
+    ophys_experiment_dataset_obj : _type_
+        _description_
+    cell_specimen_id : int, optional
+        unified id of segmented cell across experiments (assigned
+        after cell matching), by default None
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
+    dff_df =ophys_experiment_dataset_obj.dff_traces.reset_index()
+    if cell_specimen_id == None:
+        dff = util.average_dataframe_timeseries_values(dff_df, 'dff')
+    else:
+        dff = dff_df.loc[dff_df["cell_specimen_id"] == cell_specimen_id, "dff"].values
+    timestamps = ophys_experiment_dataset_obj.ophys_timestamps
+    return dff, timestamps
 
 def get_stimulus_omission(stimulus_presentations_df):
     return  stimulus_presentations_df.loc[stimulus_presentations_df["omitted"] == True]
