@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
-import visual_behavior_plotting.visual_behavior.util as util
+import visual_behavior.util as util
 
 def get_stimulus_name(dataset_obj):
     """gets the stimulus name for a dataset object
@@ -33,7 +33,7 @@ def get_lick_timestamps(dataset_obj):
     array
         _description_
     """
-    lick_timestamps = dataset_obj.licks["timestamps"]
+    lick_timestamps = dataset_obj.licks["timestamps"].values
     return lick_timestamps
 
 def get_reward_timestamps(dataset_obj, reward_type):
@@ -57,11 +57,11 @@ def get_reward_timestamps(dataset_obj, reward_type):
 
     rewards_df = dataset_obj.rewards
     if reward_type == "all":
-        reward_timestamps = rewards_df['timestamps']
+        reward_timestamps = rewards_df['timestamps'].values
     elif reward_type == "auto":
-        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == True]["timestamps"]
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == True]["timestamps"].values
     elif reward_type == "earned":
-        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == False]["timestamps"]
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == False]["timestamps"].values
     return reward_timestamps
 
 def get_running_speed(dataset_obj):
