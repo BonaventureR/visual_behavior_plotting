@@ -86,7 +86,10 @@ def get_novelty_style_for_stim_name(stimulus_name):
 
 # def generate_plot_title():
 
-# def plot_timeseries(values, timestamps, color, label):
-#     sns.lineplot(x = values, y = timestamps, color = color, )
+# def generate_plot_palette():
+
+
+# def plot_timeseries(values, timestamps, palette, labels):
+#     sns.lineplot(x = values, y = timestamps, palette = palette)
 
 

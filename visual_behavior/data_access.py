@@ -3,41 +3,103 @@ import numpy as np
 import pandas as pd
 
 
-from allensdk.brain_observatory.behavior.behavior_project_cache import VisualBehaviorOphysProjectCache
+
+def get_lick_timestamps(dataset_object):
+    """_summary_
+
+    Parameters
+    ----------
+    dataset_object : _type_
+        _description_
+
+    Returns
+    -------
+    array
+        _description_
+    """
+    lick_timestamps = dataset_object.licks["timestamps"]
+    return lick_timestamps
 
 
+def get_reward_timestamps(dataset_object, reward_type):
+    """_summary_
 
-def average_dataframe_timeseries_values(dataframe, timeseries_column):
-    return  dataframe[timeseries_column].values.mean()
+    Parameters
+    ----------
+    dataset_object : behavior dataset object or ophys experiment object
+        _description_
+    reward_type : string
+        options: 
+            "all": all rewards (auto and earned)
+            "auto": only free or unearned rewards 
+            "earned": only earned (hit on a go trial) rewards
 
-def get_stimulus_omission_timestamps(stimulus_presentations_df):
+    Returns
+    -------
+    array
+        arry of timestamps for rewards
+    """
+
+    rewards_df = dataset_object.rewards
+    if reward_type == "all":
+        reward_timestamps = rewards_df['timestamps']
+    elif reward_type == "auto":
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == True]["timestamps"]
+    elif reward_type == "earned":
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == False]["timestamps"]
+    return reward_timestamps
+
+def get_stimulus_name(dataset_object):
+    """gets the stimulus name for a dataset object
+    Parameters
+    ----------
+    dataset_object : object
+        behavior session or ophys experiment object
+
+    Returns
+    -------
+    string
+        the stimulus name for a given session or experiment
+    """
+    stimulus_name = dataset_object.metadata['session_type']
+    return stimulus_name
+
+
+def get_stimulus_omission(stimulus_presentations_df):
     return  stimulus_presentations_df.loc[stimulus_presentations_df["omitted"] == True]
 
-def get_stimulus_changes_timestamps(stimulus_presentations_df):
+def get_stimulus_changes(stimulus_presentations_df):
     return stimulus_presentations_df.loc[stimulus_presentations_df["is_change"] == True]
 
-def get_stimulus_all_image_presentation_timestamps(stimulus_presentations_df):
+def get_stimulus_all_image_presentation(stimulus_presentations_df):
     return stimulus_presentations_df.loc[stimulus_presentations_df["omitted"] == False]
 
-def get_stimulus_image_presentation_timestamps(stimulus_presentations_df, image_name):
+def get_stimulus_image_presentation(stimulus_presentations_df, image_name):
     return stimulus_presentations_df.loc[stimulus_presentations_df["image_name"] == image_name]
+    
+def get_trial_type(trials_df, trial_type, include_aborted_trials = False):
+    filtered_trials = trials_df.loc[trials_df[trial_type] == True]
+    if include_aborted_trials == False:
+        filtered_trials = filtered_trials.loc[filtered_trials["aborted"] == False]
+    return filtered_trials 
 
+def get_hit_trials(trials_df):
+    return get_trial_type(trials_df, "hit")
 
-def get_running_speed_timeseries():
+def get_miss_trials(trials_df):
+    return get_trial_type(trials_df, "miss")
 
+def get_correct_reject_trials(trials_df):
+    return get_trial_type(trials_df, "correct_reject")
 
+def get_correct_reject_trials(trials_df):
+    return get_trial_type(trials_df, "false_alarm")
 
-def get_first_omission_exposure_experiment_ids(experiments_table):
-    data = experiments_table.copy()
-    data = data[data.session_type.isin(['OPHYS_1_images_B', 'OPHYS_1_images_A', 'OPHYS_1_images_G'])]
-    data = data[data.exposure_number == 0]
-    filtered_experiment_ids = data.ophys_experiment_id.unique()
-    return filtered_experiment_ids
+def get_aborted_trials(trials_df):
+    return get_trial_type(trials_df, "aborted", include_aborted_trials = True)
 
+def get_go_trials(trials_df, include_aborted_trials = False):
+    return get_trial_type(trials_df, "go", include_aborted_trials)
 
-def get_first_novel_image_exposure_experiment_ids(experiments_table):
-    data = experiments_table.copy()
-    data = data[data.session_type.isin(['OPHYS_4_images_B', 'OPHYS_4_images_A', 'OPHYS_4_images_H'])]
-    data = data[data.exposure_number == 0]
-    filtered_experiment_ids = data.ophys_experiment_id.unique()
-    return filtered_experiment_ids
+def get_catch_trials(trials_df, include_aborted_trials = False):
+    return get_trial_type(trials_df, "catch", include_aborted_trials)
