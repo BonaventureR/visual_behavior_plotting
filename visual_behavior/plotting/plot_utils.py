@@ -1,6 +1,3 @@
-import seaborn as sns
-import matplotlib.pyplot as plt
-
 # colors are all hexidecimel 
 
 DATASTREAM_STYLE_DICT = {
@@ -67,6 +64,14 @@ BEHAV_RESP_STYLE_DICT = {
     "correct_reject": {"color": "#b8e186", "label": "correct reject"},  # light green
     "aborted":        {"color": "#525252", "label": "aborted"}          # dark grey
 }
+
+def get_color_for_dict_key(dictionary, key):
+    color = dictionary[key]['color']
+    return color
+
+def get_label_for_dict_key(dictionary, key):
+    label = dictionary[key]['label']
+    return label
 
 def get_style_for_stim_name(dictionary, stimulus_name):
     dict_keys = dictionary.keys()
