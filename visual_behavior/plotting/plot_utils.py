@@ -1,6 +1,3 @@
-import seaborn as sns
-import matplotlib.pyplot as plt
-
 # colors are all hexidecimel 
 
 DATASTREAM_STYLE_DICT = {
@@ -10,8 +7,8 @@ DATASTREAM_STYLE_DICT = {
                                "label": "earned rewards"},
     "rewards_auto":           {"color": "#6baed6",                  # light blue
                                "label": "auto rewards"},
-    "pupil_diameter":         {"color": "#fdc086",                  # light orange
-                               "label": "pupil diameter"},
+    "pupil_area":             {"color": "#fdc086",                  # light orange
+                               "label": "pupil area"},
     "physio":                 {"color": "#7fc97f",                  # light green
                                "label":  "df/f"},
     "running_speed":          {"color": "#beaed4",                  # light purple
@@ -67,6 +64,14 @@ BEHAV_RESP_STYLE_DICT = {
     "correct_reject": {"color": "#b8e186", "label": "correct reject"},  # light green
     "aborted":        {"color": "#525252", "label": "aborted"}          # dark grey
 }
+
+def get_color_for_dict_key(dictionary, key):
+    color = dictionary[key]['color']
+    return color
+
+def get_label_for_dict_key(dictionary, key):
+    label = dictionary[key]['label']
+    return label
 
 def get_style_for_stim_name(dictionary, stimulus_name):
     dict_keys = dictionary.keys()
