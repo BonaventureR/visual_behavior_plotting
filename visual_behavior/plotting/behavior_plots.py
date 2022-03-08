@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from data_access import *
+from plot_utils import *
+import visual_behavior.data_access as data
 
 
 def plot_behavioral_streams(dataObject):
@@ -59,9 +60,10 @@ def plot_running(dataObject, ax=None):
     if ax is None:
         fig, ax = plt.subplots()
 
-    speed, timestamps = get_running_speed(dataObject)
+    speed, timestamps = data.get_running_speed(dataObject)
 
-    ax.plot(timestamps, speed, color="black")
+    ax.plot(timestamps, speed,
+        color = DATASTREAM_STYLE_DICT['running_speed']['color'])
     ax.set_title("running speed")
     ax.set_ylabel("speed (cm/s)")
 
@@ -82,8 +84,12 @@ def plot_licks(dataObject, ax=None):
     if ax is None:
         fig, ax = plt.subplots()
 
-    licks = get_lick_timestamps(dataObject)
-    ax.plot(licks, np.zeros_like(licks), marker="o", linestyle="none", color="black")
+    licks = data.get_lick_timestamps(dataObject)
+    ax.plot(licks, np.zeros_like(licks), marker="o",
+            linestyle="none", 
+            color = DATASTREAM_STYLE_DICT['licks']['color'])
+
+
 
 
 def plot_rewards(dataObject, ax=None, reward_type="all"):
@@ -107,15 +113,16 @@ def plot_rewards(dataObject, ax=None, reward_type="all"):
     if ax is None:
         fig, ax = plt.subplots()
 
-    rewards = get_reward_timestamps(dataObject, reward_type=reward_type)
+    reward_timesestamps = data.get_reward_timestamps(dataObject,
+        reward_type=reward_type)
     ax.plot(
-        rewards,
-        np.zeros_like(rewards),
+        reward_timesestamps,
+        np.zeros_like(reward_timesestamps),
         marker="d",
-        linestyle="none",
-        color="blue",
-        markersize=10,
-        alpha=0.25,
+        linestyle = "none",
+        color = DATASTREAM_STYLE_DICT['rewards']['color'],
+        markersize = 10,
+        alpha = 0.25,
     )
 
 
@@ -152,12 +159,13 @@ def plot_pupil(dataObject, ax=None):
     if ax is None:
         fig, ax = plt.subplots()
 
-    pupil_area, timestamps = get_pupil_area(dataObject)
+    pupil_area, timestamps = data.get_pupil_area(dataObject)
 
     ax.plot(
-        timestamps, pupil_area, color="black",
+        timestamps, pupil_area,
+        color = DATASTREAM_STYLE_DICT['pupil_area']['color'],
     )
-    ax.set_title("pupil area")
+    ax.set_title(DATASTREAM_STYLE_DICT['pupil_area']['label'])
     ax.set_ylabel("pupil area\n$(pixels^2)$")
 
 
