@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from plot_utils import *
+from plot_utils import * 
 import visual_behavior.data_access as data
 
 
