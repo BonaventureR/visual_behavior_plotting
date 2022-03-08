@@ -1,9 +1,14 @@
+import os
+import sys
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from plot_utils import *
+from .plot_utils import *
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import data_access as data
 
 
 
@@ -65,6 +70,7 @@ def plot_dff(ophys_data_obj, ax=None, cell_specimen_ids=None):
         
     ax.set_title('deltaF/F responses')
     ax.set_ylabel('dF/F')
+
 
 def plot_dff_heatmap(ophys_data_obj, ax = None):
     dff_traces_array = np.vstack(ophys_data_obj.get_dff_traces["dff"].values)
