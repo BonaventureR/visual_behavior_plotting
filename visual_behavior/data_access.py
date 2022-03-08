@@ -1,8 +1,11 @@
 import os
 import numpy as np
 import pandas as pd
-import visual_behavior.util as util
+import util
 
+def get_data_object_type(dataset_obj):
+    return type(dataset_obj)
+    
 def get_stimulus_name(dataset_obj):
     """gets the stimulus name for a dataset object
     Parameters
