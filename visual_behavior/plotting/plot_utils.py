@@ -10,8 +10,8 @@ DATASTREAM_STYLE_DICT = {
                                "label": "earned rewards"},
     "rewards_auto":           {"color": "#6baed6",                  # light blue
                                "label": "auto rewards"},
-    "pupil_diameter":         {"color": "#fdc086",                  # light orange
-                               "label": "pupil diameter"},
+    "pupil_area":             {"color": "#fdc086",                  # light orange
+                               "label": "pupil area"},
     "physio":                 {"color": "#7fc97f",                  # light green
                                "label":  "df/f"},
     "running_speed":          {"color": "#beaed4",                  # light purple
