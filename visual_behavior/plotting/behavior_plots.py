@@ -1,8 +1,18 @@
+
+import os
+import path
+import sys
+
+from .plot_utils import *
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import data_access as data
+
 import numpy as np
 import matplotlib.pyplot as plt
 
-from plot_utils import * 
-import visual_behavior.data_access as data
+# from .plot_utils import * 
+# import visual_behavior.data_access as data
 
 
 def plot_behavioral_streams(dataObject):
@@ -120,7 +130,7 @@ def plot_rewards(dataObject, ax=None, reward_type="all"):
         np.zeros_like(reward_timesestamps),
         marker="d",
         linestyle = "none",
-        color = DATASTREAM_STYLE_DICT['rewards']['color'],
+        color = 'b',
         markersize = 10,
         alpha = 0.25,
     )
