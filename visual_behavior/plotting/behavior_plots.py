@@ -179,6 +179,54 @@ def plot_pupil(dataObject, ax=None):
     ax.set_ylabel("pupil area\n$(pixels^2)$")
 
 
+def plot_lick_raster(dataObject, exclude_aborted=False, ax=None):
+
+    """_summary_
+        plots distribution of licks across multiple trials
+    Parameters
+    ----------
+        dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+            Objects provided via allensdk.brain_observatory module
+        exclude_aborted : Boolean
+                Flag to exclude aborted trials, or trials where the animal licks prematurely
+        ax : (matplotlib.axes), optional
+            Figure axes
+    Returns
+    ----------
+    Matplotlib fig,axis
+    """
+    if exclude_aborted:
+        #subset data to remove aborted trials
+        dataObject = dataObject[dataObject["aborted"] == False]    
+    dataObject = dataObject.reset_index()
+
+    fig,ax = plt.subplots(figsize=(5,10))
+    for trial_index, trial_id in enumerate(dataObject.index.values): 
+        trial_data = dataObject.loc[trial_id]
+        # get times relative to change time
+        lick_times = [(t - trial_data["change_time"]) for t in trial_data["lick_times"]]
+        reward_time = [(t - trial_data["change_time"]) for t in [trial_data["reward_time"]]]
+
+        # plot reward times
+        if len(reward_time)>0:
+               ax.plot(reward_time[0], trial_index + 0.5, 
+                    '.', color='b', label='reward', markersize = 6)
+
+        # plot lick times
+        ax.vlines(lick_times, trial_index, 
+                  trial_index + 1, color='k', linewidth=1)
+
+        # put a line at the change time
+        ax.vlines(0, trial_index, trial_index + 1, 
+                  color=[.5, .5, .5], linewidth = 1)
+
+    # gray bar for response window
+    ax.axvspan(0.1, 0.7, facecolor = 'gray', alpha = .3, edgecolor = 'none')
+    ax.grid(False)
+
+    fig.tight_layout()
+    return fig, ax
+
 if __name__ == "__main__":
     # make_plots(experiment_dataset) - test
     pass
