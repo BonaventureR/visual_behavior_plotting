@@ -62,9 +62,11 @@ def get_reward_timestamps(dataset_obj, reward_type):
     if reward_type == "all":
         reward_timestamps = rewards_df['timestamps'].values
     elif reward_type == "auto":
-        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == True]["timestamps"].values
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] 
+            == True]["timestamps"].values
     elif reward_type == "earned":
-        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == False]["timestamps"].values
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] 
+            == False]["timestamps"].values
     return reward_timestamps
 
 def get_running_speed(dataset_obj):
@@ -77,77 +79,66 @@ def get_running_speed(dataset_obj):
 
     Returns
     -------
-    tuple: timestamps, running_speed
-        _description_
+    tuple: 
+        running_speed (cm/sec), timestamps (sec)
     """
     running_speed = dataset_obj.running_speed["speed"].values
     timestamps = dataset_obj.running_speed["timestamps"].values
     return running_speed, timestamps
 
-def get_pupil_area(ophys_experiment_dataset_obj):
-    pupil_area = ophys_experiment_dataset_obj.eye_tracking["pupil_area"].values
-    timestamps = ophys_experiment_dataset_obj.eye_tracking["timestamps"].values
+def get_pupil_area(ophys_data_obj):
+    pupil_area = ophys_data_obj.eye_tracking["pupil_area"].values
+    timestamps = ophys_data_obj.eye_tracking["timestamps"].values
     return pupil_area, timestamps
 
-def get_dff_trace(ophys_experiment_dataset_obj, cell_specimen_id = None):
+def get_dff_trace(ophys_data_obj, dff_trace_type = "mean"):
     """_summary_
 
     Parameters
     ----------
-    ophys_experiment_dataset_obj : _type_
+    ophys_data_obj : _type_
         _description_
-    cell_specimen_id : int, optional
-        unified id of segmented cell across experiments (assigned
-        after cell matching), by default None
+    dff_trace_type : str, optional
+            "mean": will return a single mean dff timeseries
+                of all the cells
+            "all": will return an array with the dff timeseries
+                for all cells
+            cell_specimen_id (int): unified id of segmented cell
+                across experiments (assigned after cell matching).
+                Will return dff trace for this single
+                cell_specimen_id.
+
+        _description_, by default "mean"
 
     Returns
     -------
-    _type_
-        _description_
+    tuple
+        dff_trace, timestamps (sec)
     """
-    dff_df =ophys_experiment_dataset_obj.dff_traces.reset_index()
-    if cell_specimen_id == None:
-        dff = util.average_dataframe_timeseries_values(dff_df, 'dff')
+    dff_traces_df = ophys_data_obj.dff_traces.reset_index()
+    
+    if dff_trace_type == "mean":
+        dff = get_all_cells_mean_dff(dff_traces_df)
+    elif dff_trace_type == "all":
+        dff =  np.vstack(dff_df['dff'].values)
     else:
-        dff = dff_df.loc[dff_df["cell_specimen_id"] == cell_specimen_id, "dff"].values[0]
-    timestamps = ophys_experiment_dataset_obj.ophys_timestamps
+        dff = get_cell_dff(dff_traces_df, dff_trace_type)
+    
+    timestamps = ophys_data_obj.ophys_timestamps
     return dff, timestamps
 
-def get_stimulus_omission(stimulus_presentations_df):
-    return  stimulus_presentations_df.loc[stimulus_presentations_df["omitted"] == True]
+def get_all_cells_dff(dff_traces_df):
+    dff_trace_array =  np.vstack(dff_traces_df['dff'].values)
+    return dff_trace_array
 
-def get_stimulus_changes(stimulus_presentations_df):
-    return stimulus_presentations_df.loc[stimulus_presentations_df["is_change"] == True]
+def get_cell_dff(dff_traces_df, cell_specimen_id):
+    # put a precondition check here to make sure its a csid for this experiment
+    cell_dff = dff_traces_df.loc[dff_traces_df["cell_specimen_id"] 
+        == cell_specimen_id, "dff"].values[0]
+    return cell_dff
 
-def get_stimulus_all_image_presentation(stimulus_presentations_df):
-    return stimulus_presentations_df.loc[stimulus_presentations_df["omitted"] == False]
+def get_all_cells_mean_dff(dff_traces_df):
+    ave_dff = util.average_dataframe_timeseries_values(dff_traces_df, 'dff')
+    return ave_dff
 
-def get_stimulus_image_presentation(stimulus_presentations_df, image_name):
-    return stimulus_presentations_df.loc[stimulus_presentations_df["image_name"] == image_name]
-    
-def get_trial_type(trials_df, trial_type, include_aborted_trials = False):
-    filtered_trials = trials_df.loc[trials_df[trial_type] == True]
-    if include_aborted_trials == False:
-        filtered_trials = filtered_trials.loc[filtered_trials["aborted"] == False]
-    return filtered_trials 
 
-def get_hit_trials(trials_df):
-    return get_trial_type(trials_df, "hit")
-
-def get_miss_trials(trials_df):
-    return get_trial_type(trials_df, "miss")
-
-def get_correct_reject_trials(trials_df):
-    return get_trial_type(trials_df, "correct_reject")
-
-def get_correct_reject_trials(trials_df):
-    return get_trial_type(trials_df, "false_alarm")
-
-def get_aborted_trials(trials_df):
-    return get_trial_type(trials_df, "aborted", include_aborted_trials = True)
-
-def get_go_trials(trials_df, include_aborted_trials = False):
-    return get_trial_type(trials_df, "go", include_aborted_trials)
-
-def get_catch_trials(trials_df, include_aborted_trials = False):
-    return get_trial_type(trials_df, "catch", include_aborted_trials)
