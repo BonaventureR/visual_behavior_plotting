@@ -95,7 +95,7 @@ def plot_licks(dataObject, ax=None):
         fig, ax = plt.subplots()
 
     licks = data.get_lick_timestamps(dataObject)
-    ax.plot(licks, np.zeros_like(licks), marker="o",
+    ax.plot(licks, np.zeros_like(licks), marker="|",
             linestyle="none", 
             color = DATASTREAM_STYLE_DICT['licks']['color'])
 
@@ -128,10 +128,10 @@ def plot_rewards(dataObject, ax=None, reward_type="all"):
     ax.plot(
         reward_timesestamps,
         np.zeros_like(reward_timesestamps),
-        marker="d",
+        marker="o",
         linestyle = "none",
         color = 'b',
-        markersize = 10,
+        markersize = 6,
         alpha = 0.25,
     )
 
