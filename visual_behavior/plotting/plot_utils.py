@@ -3,20 +3,22 @@
 DATASTREAM_STYLE_DICT = {
     "licks":                  {"color": "#252525",                  # black 
                                "label": "licks"},
-    "rewards_earned":         {"color": "#2171b5",                  # dark blue
-                               "label": "earned rewards"},
-    "rewards_auto":           {"color": "#6baed6",                  # light blue
-                               "label": "auto rewards"},
+    "rewards":                {"color": "#6baed6",                  # blue
+                               "label": "rewards"},                
     "pupil_area":             {"color": "#fdc086",                  # light orange
                                "label": "pupil area"},
-    "physio":                 {"color": "#7fc97f",                  # light green
+    "dff":                    {"color": "#7fc97f",                  # light green
                                "label":  "df/f"},
     "running_speed":          {"color": "#beaed4",                  # light purple
                                "label": "running speed (cm/sec)"},
     "stimulus_presentations": {"color": "#cccccc",                  # light grey 
                                "label": "stim presentations"}
 }
-
+REWARDS_STYLE_DICT = {
+    "all":    {"color": "#6baed6", "label": "rewards (all)"}, 
+    "earned": {"color": "#08519c", "label": "rewards (earned)"},
+    "auto":   {"color": "#c6dbef", "label": "rewards (auto)"}
+}
 CRELINE_STYLE_DICT = {
     "Sst-IRES-Cre":      {"color": "#b35806", "label": "Sst"}, # orange (dark)
     "Vip-IRES-Cre":      {"color": "#fdb863", "label": "Vip"}, # orange (medium-light)
