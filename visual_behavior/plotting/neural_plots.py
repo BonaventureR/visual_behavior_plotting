@@ -35,41 +35,20 @@ def plot_segmentation_mask_overlay(ophys_data_obj, ax = None):
     mask[:] = np.nan
     mask[segmentation_mask[0] == 1] = 1
     ax.imshow(mask, cmap='hsv', vmax=1, alpha=0.5)
-    ax.axis('off')
+    # ax.axis('off')
     return ax
 
 
-def plot_dff(ophys_data_obj, ax=None, cell_specimen_ids=None):
-    """_summary_:
-        plot each cell's dff response for a given trial
-    Parameters
-    ----------
-    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
-        Objects provided via allensdk.brain_observatory module
-    ax : (matplotlib.axes), optional
-        Figure axes, by default None
-    cell_specimen_id : List, optional
-        Specific cell specimen id, by default None
-    """
-    if ax is None:
-      fig, ax = plt.subplots()
-    
-    if cell_specimen_id:
-        for cell_specimen_id in cell_specimen_ids:
-            ax.plot(
-                ophys_data_obj.tidy_dff_traces.query('cell_specimen_id == @cell_specimen_id')['timestamps'],
-                ophys_data_obj.tidy_dff_traces.query('cell_specimen_id == @cell_specimen_id')['dff']
-                )
-        return
-
-    for cell_specimen_id in ophys_data_obj.tidy_dff_traces['cell_specimen_id'].unique():
-      ax.plot(
-          ophys_data_obj.tidy_dff_traces.query('cell_specimen_id == @cell_specimen_id')['timestamps'],
-          ophys_data_obj.tidy_dff_traces.query('cell_specimen_id == @cell_specimen_id')['dff']
-          )
-        
-    ax.set_title('deltaF/F responses')
-    ax.set_ylabel('dF/F')
+def plot_dff(ophys_data_obj, cell_specimen_id = None, ax = None):
+    if ax == None:
+        fig, ax = plt.subplots()
+    dff_trace, timestamps = data.get_dff_trace(ophys_data_obj,
+                            cell_specimen_id = cell_specimen_id)
+    ax.plot(timestamps, dff_trace, color = DATASTREAM_STYLE_DICT['dff']['color']);
+    ax.set_title("Fluorescence trace")
+    ax.set_xlabel("time (sec)")
+    ax.set_ylabel("df/f")
+    return ax
 
 
 def plot_dff_heatmap(ophys_data_obj, ax = None):
