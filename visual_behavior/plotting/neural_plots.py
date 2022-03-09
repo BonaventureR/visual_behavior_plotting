@@ -35,16 +35,36 @@ def plot_segmentation_mask_overlay(ophys_data_obj, ax = None):
     mask[:] = np.nan
     mask[segmentation_mask[0] == 1] = 1
     ax.imshow(mask, cmap='hsv', vmax=1, alpha=0.5)
-    # ax.axis('off')
+    ax.axis('off')
     return ax
 
 
 def plot_dff(ophys_data_obj, cell_specimen_id = None, ax = None):
+    """_summary_
+
+    Parameters
+    ----------
+    ophys_data_obj : _type_
+        _description_
+    cell_specimen_id : str, optional
+        by default "mean", options include:
+            "mean": 
+            cell_specimen_id (int):
+    ax : _type_, optional
+        _description_, by default None
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
+
     if ax == None:
         fig, ax = plt.subplots()
-    dff_trace, timestamps = data.get_dff_trace(ophys_data_obj,
-                            cell_specimen_id = cell_specimen_id)
-    ax.plot(timestamps, dff_trace, color = DATASTREAM_STYLE_DICT['dff']['color']);
+    
+    dff_trace, timestamps = data.get_dff_trace_timeseries(ophys_data_obj, 
+                                                          cell_specimen_id)
+    ax.plot(timestamps, dff_trace, color = DATASTREAM_STYLE_DICT['dff']['color'])
     ax.set_title("Fluorescence trace")
     ax.set_xlabel("time (sec)")
     ax.set_ylabel("df/f")
@@ -52,7 +72,8 @@ def plot_dff(ophys_data_obj, cell_specimen_id = None, ax = None):
 
 
 def plot_dff_heatmap(ophys_data_obj, ax = None):
-    dff_traces_array = np.vstack(ophys_data_obj.get_dff_traces["dff"].values)
+    dff_traces_array = data.get_dff_trace(ophys_data_obj,
+                            dff_trace_type = "all")
 
     if ax is None:
       fig, ax = plt.subplots()
