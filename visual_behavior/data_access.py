@@ -91,24 +91,23 @@ def get_pupil_area(ophys_data_obj):
     timestamps = ophys_data_obj.eye_tracking["timestamps"].values
     return pupil_area, timestamps
 
-def get_dff_trace(ophys_data_obj, dff_trace_type = "mean"):
-    """_summary_
+def get_dff_trace_timeseries(ophys_data_obj, cell_specimen_id = None):
+    """ By default will return the average dff trace (mean
+        of all cell dff traces) for an ophys experiment. If 
+        cell_specimen_id is specified then will return the 
+        dff trace for that single cell specimen id. 
 
     Parameters
     ----------
     ophys_data_obj : _type_
         _description_
-    dff_trace_type : str, optional
-            "mean": will return a single mean dff timeseries
+    dff_trace_type : Int, optional, by default None
+            None: will return a single mean dff timeseries
                 of all the cells
-            "all": will return an array with the dff timeseries
-                for all cells
             cell_specimen_id (int): unified id of segmented cell
                 across experiments (assigned after cell matching).
                 Will return dff trace for this single
                 cell_specimen_id.
-
-        _description_, by default "mean"
 
     Returns
     -------
@@ -117,13 +116,10 @@ def get_dff_trace(ophys_data_obj, dff_trace_type = "mean"):
     """
     dff_traces_df = ophys_data_obj.dff_traces.reset_index()
     
-    if dff_trace_type == "mean":
+    if cell_specimen_id == None:
         dff = get_all_cells_mean_dff(dff_traces_df)
-    elif dff_trace_type == "all":
-        dff =  np.vstack(dff_df['dff'].values)
     else:
-        dff = get_cell_dff(dff_traces_df, dff_trace_type)
-    
+        dff = get_cell_dff(dff_traces_df, cell_specimen_id)
     timestamps = ophys_data_obj.ophys_timestamps
     return dff, timestamps
 
