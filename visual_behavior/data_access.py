@@ -109,7 +109,7 @@ def get_dff_trace(ophys_experiment_dataset_obj, cell_specimen_id = None):
     if cell_specimen_id == None:
         dff = util.average_dataframe_timeseries_values(dff_df, 'dff')
     else:
-        dff = dff_df.loc[dff_df["cell_specimen_id"] == cell_specimen_id, "dff"].values
+        dff = dff_df.loc[dff_df["cell_specimen_id"] == cell_specimen_id, "dff"].values[0]
     timestamps = ophys_experiment_dataset_obj.ophys_timestamps
     return dff, timestamps
 
