@@ -1,17 +1,43 @@
 
-import os
 import numpy as np
 import pandas as pd
 
 
-def average_dataframe_timeseries_values(dataframe, values_column):
+def average_df_timeseries_values(dataframe, values_column):
+    """calculates the mean timeseries from a dataframe
+        column. 
+
+    Parameters
+    ----------
+    dataframe : pandas dataframe
+        generic dataframe
+    values_column : string
+        name of the column that contains the
+        timeseries arrays to average
+
+    Returns
+    -------
+    array
+        the averaged (mean) timeseries 
+    """
     values_array =  np.vstack(dataframe[values_column].values)
     mean_trace = np.mean(values_array, axis = 0)
     return  mean_trace
 
-def verify_dataset_type(dataset_obj, expected_obj_type, expected_obj_name):
-    assert type(dataset_obj) == expected_obj_type, "Error: expected type {}, but\
-        recieved {} type insteead.".format(expected_obj_name, type(dataset_obj))
 
-def validate_value_in_dict_keys(input_value, dictionary, dict_name):
-    assert input_value in dictionary, "Error: input value is not in {} keys.".format(dict_name)
+# Precondition utilities
+def validate_value_in_dict_keys(input_key, dictionary, dict_name):
+    """validates that the input key is in fact a
+        key in a given dictionary
+
+    Parameters
+    ----------
+    input_key : generic
+        key to check
+    dictionary : dictionary
+        dictionary to check
+    dict_name : string
+        name of dictionary
+    """
+    assert input_key in dictionary, "Error: input value is\
+        not in {} keys.".format(dict_name)
