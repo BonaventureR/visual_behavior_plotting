@@ -3,51 +3,59 @@ import numpy as np
 import pandas as pd
 import util
 
-def get_data_object_type(dataset_obj):
-    return type(dataset_obj)
+def get_data_object_type(dataObject):
+    """_summary_
+
+    Parameters
+    ----------
+    dataObject : _type_
+        _description_
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
+    return type(dataObject)
     
-def get_stimulus_name(dataset_obj):
+def get_stimulus_name(dataObject):
     """gets the stimulus name for a dataset object
     Parameters
     ----------
-    dataset_object : object
-        options: 
-        behavior session
-        ophys experiment object
+    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+        Objects provided via allensdk.brain_observatory module
 
     Returns
     -------
     string
         the stimulus name for a given session or experiment
     """
-    stimulus_name = dataset_obj.metadata['session_type']
+    stimulus_name = dataObject.metadata['session_type']
     return stimulus_name
 
-def get_lick_timestamps(dataset_obj):
-    """_summary_
+def get_lick_timestamps(dataObject):
+    """gets the timestamps of 
 
     Parameters
     ----------
-    dataset_object : _type_
-        _description_
-
+    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+        Objects provided via allensdk.brain_observatory module
     Returns
     -------
     array
-        _description_
+        array of lick timestamps
     """
-    lick_timestamps = dataset_obj.licks["timestamps"].values
+    lick_timestamps = dataObject.licks["timestamps"].values
     return lick_timestamps
 
-def get_reward_timestamps(dataset_obj, reward_type):
-    """_summary_
-
+def get_reward_timestamps(dataObject, reward_type = "all"):
+    """gets the timestamps of water rewards
     Parameters
     ----------
-    dataset_object : visual behavior dataset object from the allen SDK
-        options
+    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+        Objects provided via allensdk.brain_observatory module
     reward_type : string
-        options: 
+        by default "all", options: 
             "all": all rewards (auto and earned)
             "auto": only free or unearned rewards 
             "earned": only earned (hit on a go trial) rewards
@@ -55,10 +63,10 @@ def get_reward_timestamps(dataset_obj, reward_type):
     Returns
     -------
     array
-        arry of timestamps for rewards
+        arry of reward timestamps
     """
 
-    rewards_df = dataset_obj.rewards
+    rewards_df = dataObject.rewards
     if reward_type == "all":
         reward_timestamps = rewards_df['timestamps'].values
     elif reward_type == "auto":
@@ -69,29 +77,42 @@ def get_reward_timestamps(dataset_obj, reward_type):
             == False]["timestamps"].values
     return reward_timestamps
 
-def get_running_speed(dataset_obj):
-    """_summary_
+def get_running_speed_timeseries(dataObject):
+    """gets the mouse running speed timeseries
 
     Parameters
     ----------
-    dataset_object : _type_
-        _description_
+    ophysObject : (BehaviorSesson, BehaviorOphysExperiment) 
+        Objects provided via allensdk.brain_observatory module
 
     Returns
     -------
     tuple: 
         running_speed (cm/sec), timestamps (sec)
     """
-    running_speed = dataset_obj.running_speed["speed"].values
-    timestamps = dataset_obj.running_speed["timestamps"].values
+    running_speed = dataObject.running_speed["speed"].values
+    timestamps = dataObject.running_speed["timestamps"].values
     return running_speed, timestamps
 
-def get_pupil_area(ophys_data_obj):
-    pupil_area = ophys_data_obj.eye_tracking["pupil_area"].values
-    timestamps = ophys_data_obj.eye_tracking["timestamps"].values
+def get_pupil_area_timeseries(ophysObject):
+    """gets mouse's pupil area timeseries
+
+    Parameters
+    ----------
+    ophysObject : (BehaviorOphysExperiment) 
+        Object provided via allensdk.brain_observatory
+        module
+
+    Returns
+    -------
+   tuple
+        pupil area (pixels ^2), timestamps
+    """
+    pupil_area = ophysObject.eye_tracking["pupil_area"].values
+    timestamps = ophysObject.eye_tracking["timestamps"].values
     return pupil_area, timestamps
 
-def get_dff_trace_timeseries(ophys_data_obj, cell_specimen_id = None):
+def get_dff_trace_timeseries(ophysObject, cell_specimen_id = None):
     """ By default will return the average dff trace (mean
         of all cell dff traces) for an ophys experiment. If 
         cell_specimen_id is specified then will return the 
@@ -99,42 +120,84 @@ def get_dff_trace_timeseries(ophys_data_obj, cell_specimen_id = None):
 
     Parameters
     ----------
-    ophys_data_obj : _type_
-        _description_
-    dff_trace_type : Int, optional, by default None
-            None: will return a single mean dff timeseries
-                of all the cells
-            cell_specimen_id (int): unified id of segmented cell
-                across experiments (assigned after cell matching).
-                Will return dff trace for this single
-                cell_specimen_id.
+    ophysObject : (BehaviorOphysExperiment) 
+            Object provided via allensdk.brain_observatory
+            module
+    cell_specimen_id : int
+        unified id of segmented cell across experiments
+        (assigned after cell matching). Will return dff
+        trace for this single cell_specimen_id.
 
     Returns
     -------
     tuple
         dff_trace, timestamps (sec)
     """
-    dff_traces_df = ophys_data_obj.dff_traces.reset_index()
+    dff_traces_df = ophysObject.dff_traces.reset_index()
     
     if cell_specimen_id == None:
         dff = get_all_cells_mean_dff(dff_traces_df)
     else:
         dff = get_cell_dff(dff_traces_df, cell_specimen_id)
-    timestamps = ophys_data_obj.ophys_timestamps
+    timestamps = ophysObject.ophys_timestamps
     return dff, timestamps
 
 def get_all_cells_dff(dff_traces_df):
+    """gets the dff traces for all cells
+    in a BehaviorOphysExperiment
+
+    Parameters
+    ----------
+    dff_traces_df :pandas dataframe
+        dff_traces attribute of a BehaviorOphysExperiment
+        object.
+
+    Returns
+    -------
+    array
+        array of arrays with each second level array containing
+        the dff timeseries values for a single cell
+    """
     dff_trace_array =  np.vstack(dff_traces_df['dff'].values)
     return dff_trace_array
 
 def get_cell_dff(dff_traces_df, cell_specimen_id):
+    """_summary_
+
+    Parameters
+    ----------
+    dff_traces_df : pandas dataframe
+        dff_traces attribute of a BehaviorOphysExperiment
+        object.
+    cell_specimen_id : int
+       unified id of segmented cell across experiments
+       (assigned after cell matching).
+
+    Returns
+    -------
+    array
+       dff timeseries values for the given specified cell
+    """
     # put a precondition check here to make sure its a csid for this experiment
     cell_dff = dff_traces_df.loc[dff_traces_df["cell_specimen_id"] 
         == cell_specimen_id, "dff"].values[0]
     return cell_dff
 
 def get_all_cells_mean_dff(dff_traces_df):
-    ave_dff = util.average_dataframe_timeseries_values(dff_traces_df, 'dff')
-    return ave_dff
+    """gets the mean dff trace for all cells
+    for a given BehaviorOphysExperiment
+
+    Parameters
+    ----------
+    dff_traces_df : pandas dataframe
+        dff_traces attribute of a BehaviorOphysExperiment
+        object.
+    Returns
+    -------
+    array
+        mean dff timeseries values for all cells
+    """
+    mean_dff = util.average_df_timeseries_values(dff_traces_df, 'dff')
+    return mean_dff
 
 
