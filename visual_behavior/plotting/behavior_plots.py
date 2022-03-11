@@ -26,7 +26,7 @@ def plot_behavioral_streams(dataObject):
             module
     Returns
     ----------
-        MatPlotLib: 
+        MatPlotLib: figure and axes
     """
     experiment = False
     fig, axes = None, None
@@ -48,7 +48,6 @@ def plot_behavioral_streams(dataObject):
     axes[1].set_title("licks and rewards")
     axes[1].set_yticks([])
     axes[1].legend(["licks", "rewards"])
-    axes.set_xlabel("time (sec)")
 
     if experiment:
         plot_pupil_area(dataObject, axes[2])
@@ -59,6 +58,7 @@ def plot_behavioral_streams(dataObject):
 
 def plot_running(dataObject, ax=None):
     """ plot running speed for trial on specified dataset
+    x axis is time (sec), y is running speed (cm/sec)
         
     Parameters
     ----------
@@ -86,7 +86,8 @@ def plot_running(dataObject, ax=None):
 
 
 def plot_licks(dataObject, ax=None):
-    """ plot licks as black dots on specified dataset
+    """ plot licks as tick marks on specified dataset.
+    x axis is time (sec) and y axis is lick ticks
         
     Parameters
     ----------
@@ -107,10 +108,9 @@ def plot_licks(dataObject, ax=None):
             color = DATASTREAM_STYLE_DICT['licks']['color'])
 
 
-
-
 def plot_rewards(dataObject, ax=None, reward_type="all"):
-    """ plot rewards as blue diamonds on specified axis
+    """ plot rewards as blue dots on specified axis
+    x axis is time (sec) and y axis is rewards.
         
     Parameters
     ----------
@@ -163,7 +163,9 @@ def plot_stimuli(dataObject, ax):
 
 
 def plot_pupil_area(dataObject, ax=None):
-    """ plot pupil area on specified axis
+    """ plot pupil area timeseries. 
+    x axis is time (sec) and y axis is pupil area
+    in pixels squared. 
         
     Parameters
     ----------
@@ -174,7 +176,7 @@ def plot_pupil_area(dataObject, ax=None):
             Figure axes
     Returns
     ----------
-    None
+    matplotlib.axes
     """
     if ax is None:
         fig, ax = plt.subplots()
@@ -189,6 +191,7 @@ def plot_pupil_area(dataObject, ax=None):
     )
     ax.set_title(DATASTREAM_STYLE_DICT['pupil_area']['label'])
     ax.set_ylabel("pupil area\n$(pixels^2)$")
+    return ax
     
 
 
