@@ -11,27 +11,86 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import data_access as data
 
 
+def plot_max_projection(ophysObject, ax = None):
+    """_summary_
 
-def plt_max_projection(ophysObject, ax = None):
+    Parameters
+    ----------
+    ophysObject : BehaviorOphysExperiment
+        Object provided via allensdk.brain_observatory
+        module
+    ax : matplotlib.axes, optional
+        Figure axes
+
+    Returns
+    -------
+    matplotlib.axes
+        plotting axes
+    """
     if ax is None:
         fig, ax = plt.subplots()
     ax.imshow(ophysObject.max_projection, cmap='gray')
     return ax
 
-def plt_average_projection(ophysObject, ax = None):
+def plot_average_projection(ophysObject, ax = None):
+    """_summary_
+
+    Parameters
+    ----------
+    ophysObject : BehaviorOphysExperiment
+        Object provided via allensdk.brain_observatory
+        module
+    ax : matplotlib.axes, optional
+        Figure axes
+
+    Returns
+    -------
+    matplotlib.axes
+        plotting axes
+    """
     if ax is None:
         fig, ax = plt.subplots()
     ax.imshow(ophysObject.average_projection, cmap='gray')
     return ax
 
 
-def plt_segmentation_masks(ophysObject, ax = None):
+def plot_segmentation_masks(ophysObject, ax = None):
+    """_summary_
+
+    Parameters
+    ----------
+    ophysObject : BehaviorOphysExperiment
+        Object provided via allensdk.brain_observatory
+        module
+    ax : matplotlib.axes, optional
+        Figure axes
+
+    Returns
+    -------
+    matplotlib.axes
+        plotting axes
+    """
     if ax is None:
         fig, ax = plt.subplots()
     ax.imshow(ophysObject.segmentation_mask_image)
     return ax
 
-def plt_transparent_segmentation_masks(ophysObject, ax = None):
+def plot_transparent_segmentation_masks(ophysObject, ax = None):
+    """_summary_
+
+    Parameters
+    ----------
+    ophysObject : BehaviorOphysExperiment
+        Object provided via allensdk.brain_observatory
+        module
+    ax : matplotlib.axes, optional
+        Figure axes
+
+    Returns
+    -------
+    matplotlib.axes
+        plotting axes
+    """
     if ax is None:
         fig, ax = plt.subplots()
     transparent_mask = \
@@ -40,67 +99,104 @@ def plt_transparent_segmentation_masks(ophysObject, ax = None):
     return ax
 
 
-def plt_segmentation_mask_overlay(ophysObject, ax = None):
-    if ax is None:
-        fig, ax = plt.subplots()
-    ax = plt_max_projection(ophysObject, ax)
-    ax = plt_transparent_segmentation_masks(ophysObject, ax)
-    ax.axis('off')
-    return ax
-
-
-def plt_dff(ophysObject, cell_specimen_id = None, ax = None):
+def plot_segmentation_mask_overlay(ophysObject, projection_type = "max",
+        ax = None):
     """_summary_
 
     Parameters
     ----------
-    ophys_data_obj : _type_
-        _description_
-    cell_specimen_id : str, optional
-        by default "mean", options include:
-            "mean": 
-            cell_specimen_id (int):
-    ax : _type_, optional
-        _description_, by default None
+    ophysObject : BehaviorOphysExperiment
+        Object provided via allensdk.brain_observatory
+        module
+    projection_type : str, optional
+        by default "max",  options: 
+            "max" : maximum intensity projection
+            "average" : average intensity projection
+    ax : matplotlib.axes, optional
+        Figure axes
 
     Returns
     -------
-    _type_
-        _description_
+    matplotlib.axes
+        plotting axes
     """
 
+    if ax is None:
+        fig, ax = plt.subplots()
+    if projection_type == "max":
+        ax = plot_max_projection(ophysObject, ax)
+    elif projection_type == "average":
+        ax = plot_average_projection(ophysObject, ax)
+    else: 
+        print("Please enter a valid projection_type, \
+            'max' or 'average'.")
+
+    ax = plot_transparent_segmentation_masks(ophysObject, ax)
+    ax.axis('off')
+    return ax
+
+
+def plot_dff(ophysObject, cell_specimen_id = None, ax = None):
+    """ plots the fluroescence trace (dF/F) trace.
+    x axis is time (sec) and y axis is 
+
+    Parameters
+    ----------
+    ophysObject :BehaviorOphysExperiment
+        Object provided via allensdk.brain_observatory
+        module
+    cell_specimen_id : int, optional
+        _description_, by default None
+    ax : matplotlib.axes, optional
+        Figure axes
+
+    Returns
+    -------
+    matplotlib.axes
+        plotting axes
+    """
     if ax == None:
         fig, ax = plt.subplots()
+        ax.set_xlabel("time (sec)")
     
-    dff_trace, timestamps = data.get_dff_trace_timeseries(ophysObject, 
-                                                          cell_specimen_id)
+    dff_trace, timestamps = \
+        data.get_dff_trace_timeseries(ophysObject, cell_specimen_id)
     ax.plot(timestamps, dff_trace, color = 
         DATASTREAM_STYLE_DICT['dff']['color'])
     ax.set_title("Fluorescence trace")
-    ax.set_xlabel("time (sec)")
     ax.set_ylabel("df/f")
     return ax
 
 
-def plt_dff_heatmap(ophys_data_obj, ax = None):
-    dff_traces_array = \
-        data.get_dff_trace(ophys_data_obj.dff_traces,
-                            dff_trace_type = "all")
+def plot_dff_heatmap(ophysObject, ax = None):
+    """plots a heatmap of fluorescence activity for
+    all cells in a given ophys experiment. 
+
+    Parameters
+    ----------
+    ophysObject : BehaviorOphysExperiment
+        Object provided via allensdk.brain_observatory
+        module
+    ax : matplotlib.axes, optional
+        Figure axes
+    """
+    dff_traces = data.get_all_cells_dff(ophysObject.dff_traces)
+    timestamps = ophysObject.ophys_timestamps
 
     if ax is None:
       fig, ax = plt.subplots()
 
     fig, ax = plt.subplots(figsize = (20,5))
-    color_ax = ax.pcolormesh(dff_traces_array,
-                    vmin = 0, vmax = np.percentile(dff_traces_array, 99),
+    color_ax = ax.pcolormesh(dff_traces,
+                    vmin = 0, vmax = np.percentile(dff_traces, 99),
                     cmap = 'magma')
     # label axes 
     ax.set_ylabel('cells')
     ax.set_xlabel('time (sec)')
     
     # x ticks
-    ax.set_yticks(np.arange(0, len(dff_traces_array), 10))
-    ax.set_xticklabels(np.arange(0, ophys_data_obj.ophys_timestamps[-1], 300))
+    ax.set_yticks(np.arange(0, len(dff_traces), 10))
+    ax.set_xticklabels(np.arange(0, timestamps[-1], 300))
     
     # creating a color bar
     cb = plt.colorbar(color_ax, pad=0.015, label='dF/F')
