@@ -16,12 +16,14 @@ import matplotlib.pyplot as plt
 
 
 def plot_behavioral_streams(dataObject):
-    """ __summary_ : 
-        plot behavioral streams including running, licks, rewards, and df/f streams.
+    """ plot behavioral streams including running,
+        licks, rewards, and df/f streams.
+        
     Parameters
     ----------
         dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
-            Objects provided via allensdk.brain_observatory module
+            Objects provided via allensdk.brain_observatory
+            module
     Returns
     ----------
         MatPlotLib: 
@@ -46,21 +48,23 @@ def plot_behavioral_streams(dataObject):
     axes[1].set_title("licks and rewards")
     axes[1].set_yticks([])
     axes[1].legend(["licks", "rewards"])
+    axes.set_xlabel("time (sec)")
 
     if experiment:
-        plot_pupil(dataObject, axes[2])
+        plot_pupil_area(dataObject, axes[2])
 
     fig.tight_layout()
     return fig, axes
 
 
 def plot_running(dataObject, ax=None):
-    """ __summary_ : 
-        plot running speed for trial on specified dataset
+    """ plot running speed for trial on specified dataset
+        
     Parameters
     ----------
         dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
-            Objects provided via allensdk.brain_observatory module
+            Objects provided via allensdk.brain_observatory
+            module
         ax : (matplotlib.axes), optional
             Figure axes
     Returns
@@ -69,18 +73,21 @@ def plot_running(dataObject, ax=None):
     """
     if ax is None:
         fig, ax = plt.subplots()
+        ax.set_xlabel("time (sec)")
 
-    speed, timestamps = data.get_running_speed(dataObject)
+
+    speed, timestamps = data.get_running_speed_timeseries(dataObject)
 
     ax.plot(timestamps, speed,
         color = DATASTREAM_STYLE_DICT['running_speed']['color'])
     ax.set_title("running speed")
     ax.set_ylabel("speed (cm/s)")
+    return ax
 
 
 def plot_licks(dataObject, ax=None):
-    """ __summary_ : 
-        plot licks as black dots on specified dataset
+    """ plot licks as black dots on specified dataset
+        
     Parameters
     ----------
         dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
@@ -103,8 +110,8 @@ def plot_licks(dataObject, ax=None):
 
 
 def plot_rewards(dataObject, ax=None, reward_type="all"):
-    """ __summary_ : 
-        plot rewards as blue diamonds on specified axis
+    """ plot rewards as blue diamonds on specified axis
+        
     Parameters
     ----------
         dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
@@ -137,12 +144,13 @@ def plot_rewards(dataObject, ax=None, reward_type="all"):
 
 
 def plot_stimuli(dataObject, ax):
-    """ __summary_ : 
-        plot stimuli as colored bars on specified axis
+    """ plot stimuli as colored bars on specified axis
+        
     Parameters
     ----------
         dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
-            Objects provided via allensdk.brain_observatory module
+            Objects provided via allensdk.brain_observatory
+            module
         ax : (matplotlib.axes), optional
             Figure axes
     Returns
@@ -150,16 +158,18 @@ def plot_stimuli(dataObject, ax):
     None
     """
     for _, stimulus in dataObject.stimulus_presentations.iterrows():
-        ax.axvspan(stimulus["start_time"], stimulus["stop_time"], alpha=0.5)
+        ax.axvspan(stimulus["start_time"],
+        stimulus["stop_time"], alpha=0.5)
 
 
-def plot_pupil(dataObject, ax=None):
-    """ __summary_ : 
-        plot pupil area on specified axis
+def plot_pupil_area(dataObject, ax=None):
+    """ plot pupil area on specified axis
+        
     Parameters
     ----------
-        dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
-            Objects provided via allensdk.brain_observatory module
+        dataObject : (BehaviorOphysExperiment) 
+            Object provided via allensdk.brain_observatory
+            module
         ax : (matplotlib.axes), optional
             Figure axes
     Returns
@@ -168,8 +178,10 @@ def plot_pupil(dataObject, ax=None):
     """
     if ax is None:
         fig, ax = plt.subplots()
+        ax.set_xlabel("time (sec)")
 
-    pupil_area, timestamps = data.get_pupil_area(dataObject)
+    pupil_area, timestamps = \
+    data.get_pupil_area_timeseries(dataObject)
 
     ax.plot(
         timestamps, pupil_area,
@@ -177,18 +189,20 @@ def plot_pupil(dataObject, ax=None):
     )
     ax.set_title(DATASTREAM_STYLE_DICT['pupil_area']['label'])
     ax.set_ylabel("pupil area\n$(pixels^2)$")
+    
 
 
 def plot_lick_raster(dataObject, exclude_aborted=False, ax=None):
 
-    """_summary_
-        plots distribution of licks across multiple trials
+    """plots distribution of licks across multiple trials
     Parameters
     ----------
         dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
-            Objects provided via allensdk.brain_observatory module
+            Objects provided via allensdk.brain_observatory
+            module
         exclude_aborted : Boolean
-                Flag to exclude aborted trials, or trials where the animal licks prematurely
+                Flag to exclude aborted trials, or trials
+                where the animal licks prematurely
         ax : (matplotlib.axes), optional
             Figure axes
     Returns
