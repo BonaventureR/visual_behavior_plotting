@@ -121,8 +121,8 @@ def get_dff_trace_timeseries(ophysObject, cell_specimen_id = None):
     Parameters
     ----------
     ophysObject : (BehaviorOphysExperiment) 
-            Object provided via allensdk.brain_observatory
-            module
+        Object provided via allensdk.brain_observatory
+        module
     cell_specimen_id : int
         unified id of segmented cell across experiments
         (assigned after cell matching). Will return dff
@@ -200,4 +200,24 @@ def get_all_cells_mean_dff(dff_traces_df):
     mean_dff = util.average_df_timeseries_values(dff_traces_df, 'dff')
     return mean_dff
 
+def get_transparent_segmentation_mask(ophysObject):
+    """transforms the segmentation mask image to 
+    make the background transparent
+
+    Parameters
+    ----------
+    ophysObject : (BehaviorOphysExperiment) 
+        Object provided via allensdk.brain_observatory
+        module
+    Returns
+    -------
+    2D image
+        1 where an ROI mask and NaN everywhere else
+    """
+    segmentation_mask = ophysObject.segmentation_mask_image
+    transparent_mask = np.zeros(segmentation_mask[0].shape)
+    transparent_mask[:] = np.nan
+    transparent_mask[segmentation_mask[0] == 1] = 1
+    return transparent_mask
+    
 
