@@ -9,9 +9,9 @@ The Allen Software Development Kit (allen-sdk) houses source code in python for 
 
 ##### User profile.
 
-    - Scientists
-    - Researchers
-    - Students/Academics
+    * Scientists
+    * Researchers
+    * Students/Academics
     
 
 ##### Data sources.
