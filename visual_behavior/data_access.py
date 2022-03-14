@@ -178,7 +178,7 @@ def get_cell_dff(dff_traces_df, cell_specimen_id):
     array
        dff timeseries values for the given specified cell
     """
-    # put a precondition check here to make sure its a csid for this experiment
+    
     cell_dff = dff_traces_df.loc[dff_traces_df["cell_specimen_id"] 
         == cell_specimen_id, "dff"].values[0]
     return cell_dff
@@ -224,11 +224,126 @@ def get_trials_data(ophysObject):
     """Extract trials dataframe from Ophys Experiment Object
 
     Args:
-        ophysObject : (BehaviorOphysExperiment) 
+        ophysObject : (BehaviorSesson, BehaviorOphysExperiment)
         Object provided via allensdk.brain_observatory
         module
+
     Returns
     -------
     dataframe
     """
     return ophysObject.trials
+
+def get_trial_type(trials_df, trial_type, 
+                   include_aborted):
+    """filters the trials table to a specific trial type
+
+    Parameters
+    ----------
+    trials_df : pandas dataframe
+        _description_
+    trial_type : str
+        options:
+            "all": all trial types (both go and catch)
+            "go": go trials (change presented)
+            "catch": catch trials (no change presented)
+    include_aborted : bool,
+        include aborted trials, 
+    Returns
+    -------
+    pandas dataframe
+        filtered trials table
+    """
+    if trial_type == "all":
+        if include_aborted is False:
+            filtered_trials = \
+            filtered_trials.loc[filtered_trials["aborted"] \
+            == False]
+        else:
+            filtered_trials = trials_df
+    else:
+        filtered_trials = \
+            trials_df.loc[trials_df[trial_type] == True]
+    return filtered_trials 
+
+def get_response_type(trials_df, response_type,
+                      include_aborted):
+    """filters the trials table to a specific mouse
+       behavior response type. 
+
+    Parameters
+    ----------
+    trials_df : pandas dataframe
+        _description_
+    response_type : str,
+        options:
+            "all": all responses
+            "hit": "hit" responses, only occurs on go trial type
+            "miss": "miss" responses, only occurs on 
+                go trial type
+            "false_alarm": "false_alarm" responses,
+                only occurs on catch trial type
+            "correct_reject": "correct_reject" responses,
+                only occurs on catch trial type
+    include_aborted : bool
+        include aborted trials, by default True
+
+    Returns
+    -------
+    pandas dataframe
+        filtered trials table
+    """
+    if response_type == "all":
+        if include_aborted is False:
+            filtered_trials = \
+            filtered_trials.loc[filtered_trials["aborted"] \
+            == False]
+        else:
+            filtered_trials = trials_df
+    else:
+        filtered_trials = \
+            trials_df.loc[trials_df[response_type] == True]
+    return filtered_trials
+
+
+def get_trials_data(dataObject,
+                    trial_type = "all", response_type = "all",
+                    include_aborted_trials = True):
+    """gets the trials dataframe attribute and can optionally
+       filter for specific trial or behavior response types.
+
+    Parameters
+    ----------
+    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+        Objects provided via allensdk.brain_observatory module
+    trial_type : str, optional
+        by default "all", options: 
+            "all": all trial types (both go and catch)
+            "go": go trials (change presented)
+            "catch": catch trials (no change presented)
+    response_type : str, optional
+        by default "all", options:
+            "all": all responses
+            "hit": "hit" responses, only occurs on go trial type
+            "miss": "miss" responses, only occurs on 
+                go trial type
+            "false_alarm": "false_alarm" responses,
+                only occurs on catch trial type
+            "correct_reject": "correct_reject" responses,
+                only occurs on catch trial type
+    include_aborted_trials : bool, optional
+        whether to include aborted trials, by default True
+
+    Returns
+    -------
+    pandas dataframe
+        trials dataframe, optionally filtered
+    """
+    trials_df = dataObject.trials
+    filtered_df = get_trial_type(trials_df,
+                                 trial_type = trial_type,
+                                 include_aborted = include_aborted_trials)
+    filtered_df = get_response_type(filtered_df,
+                                    response_type = response_type,
+                                    include_aborted = include_aborted_trials)
+    return filtered_df
