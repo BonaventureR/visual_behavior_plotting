@@ -212,6 +212,7 @@ def plot_lick_raster(dataObject, exclude_aborted=False, ax=None):
     ----------
     Matplotlib fig,axis
     """
+    dataObject = data.get_trials_data(dataObject)
     if exclude_aborted:
         #subset data to remove aborted trials
         dataObject = dataObject[dataObject["aborted"] == False]    
