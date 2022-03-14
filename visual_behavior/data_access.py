@@ -3,20 +3,6 @@ import numpy as np
 import pandas as pd
 import util
 
-def get_data_object_type(dataObject):
-    """_summary_
-
-    Parameters
-    ----------
-    dataObject : _type_
-        _description_
-
-    Returns
-    -------
-    _type_
-        _description_
-    """
-    return type(dataObject)
     
 def get_stimulus_name(dataObject):
     """gets the stimulus name for a dataset object
