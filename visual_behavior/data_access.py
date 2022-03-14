@@ -220,4 +220,15 @@ def get_transparent_segmentation_mask(ophysObject):
     transparent_mask[segmentation_mask[0] == 1] = 1
     return transparent_mask
     
+def get_trials_data(ophysObject):
+    """Extract trials dataframe from Ophys Experiment Object
 
+    Args:
+        ophysObject : (BehaviorOphysExperiment) 
+        Object provided via allensdk.brain_observatory
+        module
+    Returns
+    -------
+    dataframe
+    """
+    return ophysObject.trials
