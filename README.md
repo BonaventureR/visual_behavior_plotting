@@ -27,6 +27,6 @@ python -m ipykernel install --user --name visual_behavior
 
 Install visual_behavior_plotting
 ```
-pip install visual_behavior_plotting
+pip install -i https://test.pypi.org/simple/ visual-behavior-plotting
 ```
 
