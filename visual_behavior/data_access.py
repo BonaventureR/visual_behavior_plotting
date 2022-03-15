@@ -57,9 +57,9 @@ def get_reward_timestamps(dataObject, reward_type="all"):
     if reward_type == "all":
         reward_timestamps = rewards_df['timestamps'].values
     elif reward_type == "auto":
-        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == True]["timestamps"].values
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == True]["timestamps"].values  # noqa: E501
     elif reward_type == "earned":
-        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == False]["timestamps"].values
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == False]["timestamps"].values  # noqa: E501
     return reward_timestamps
 
 
@@ -168,7 +168,7 @@ def get_cell_dff(dff_traces_df, cell_specimen_id):
        dff timeseries values for the given specified cell
     """
 
-    cell_dff = dff_traces_df.loc[dff_traces_df["cell_specimen_id"] == cell_specimen_id, "dff"].values[0]
+    cell_dff = dff_traces_df.loc[dff_traces_df["cell_specimen_id"] == cell_specimen_id, "dff"].values[0]  # noqa: E501
     return cell_dff
 
 
@@ -233,12 +233,12 @@ def get_trial_type(trials_df, trial_type,
     """
     if trial_type == "all":
         if include_aborted is False:
-            filtered_trials = trials_df.loc[trials_df["aborted"] == False]
+            filtered_trials = trials_df.loc[trials_df["aborted"] == False]  # noqa: E501
         else:
             filtered_trials = trials_df
     else:
         filtered_trials = \
-            trials_df.loc[trials_df[trial_type] == True]
+            trials_df.loc[trials_df[trial_type] == True]  
     return filtered_trials
 
 
