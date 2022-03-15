@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='visual_behavior_plotting',
-    version='0.1.5',
+    version='0.1.6',
     packages=find_packages(),
     include_package_data = True,
     description='Utilities for loading and visualizing data from the Allen Institute Mindscope Visual Behavior Project',
