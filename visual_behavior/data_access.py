@@ -1,14 +1,13 @@
-import os
+
 import numpy as np
-import pandas as pd
 import util
 
-    
+
 def get_stimulus_name(dataObject):
     """gets the stimulus name for a dataset object
     Parameters
     ----------
-    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+    dataObject : (BehaviorSesson, BehaviorOphysExperiment)
         Objects provided via allensdk.brain_observatory module
 
     Returns
@@ -19,12 +18,13 @@ def get_stimulus_name(dataObject):
     stimulus_name = dataObject.metadata['session_type']
     return stimulus_name
 
+
 def get_lick_timestamps(dataObject):
-    """gets the timestamps of 
+    """gets the timestamps of licks
 
     Parameters
     ----------
-    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+    dataObject : (BehaviorSesson, BehaviorOphysExperiment)
         Objects provided via allensdk.brain_observatory module
     Returns
     -------
@@ -34,16 +34,17 @@ def get_lick_timestamps(dataObject):
     lick_timestamps = dataObject.licks["timestamps"].values
     return lick_timestamps
 
-def get_reward_timestamps(dataObject, reward_type = "all"):
+
+def get_reward_timestamps(dataObject, reward_type="all"):
     """gets the timestamps of water rewards
     Parameters
     ----------
-    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+    dataObject : (BehaviorSesson, BehaviorOphysExperiment)
         Objects provided via allensdk.brain_observatory module
     reward_type : string
-        by default "all", options: 
+        by default "all", options:
             "all": all rewards (auto and earned)
-            "auto": only free or unearned rewards 
+            "auto": only free or unearned rewards
             "earned": only earned (hit on a go trial) rewards
 
     Returns
@@ -56,36 +57,36 @@ def get_reward_timestamps(dataObject, reward_type = "all"):
     if reward_type == "all":
         reward_timestamps = rewards_df['timestamps'].values
     elif reward_type == "auto":
-        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] 
-            == True]["timestamps"].values
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == True]["timestamps"].values
     elif reward_type == "earned":
-        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] 
-            == False]["timestamps"].values
+        reward_timestamps = rewards_df.loc[rewards_df["autorewarded"] == False]["timestamps"].values
     return reward_timestamps
+
 
 def get_running_speed_timeseries(dataObject):
     """gets the mouse running speed timeseries
 
     Parameters
     ----------
-    ophysObject : (BehaviorSesson, BehaviorOphysExperiment) 
+    ophysObject : (BehaviorSesson, BehaviorOphysExperiment)
         Objects provided via allensdk.brain_observatory module
 
     Returns
     -------
-    tuple: 
+    tuple:
         running_speed (cm/sec), timestamps (sec)
     """
     running_speed = dataObject.running_speed["speed"].values
     timestamps = dataObject.running_speed["timestamps"].values
     return running_speed, timestamps
 
+
 def get_pupil_area_timeseries(ophysObject):
     """gets mouse's pupil area timeseries
 
     Parameters
     ----------
-    ophysObject : (BehaviorOphysExperiment) 
+    ophysObject : (BehaviorOphysExperiment)
         Object provided via allensdk.brain_observatory
         module
 
@@ -98,15 +99,16 @@ def get_pupil_area_timeseries(ophysObject):
     timestamps = ophysObject.eye_tracking["timestamps"].values
     return pupil_area, timestamps
 
-def get_dff_trace_timeseries(ophysObject, cell_specimen_id = None):
+
+def get_dff_trace_timeseries(ophysObject, cell_specimen_id=None):
     """ By default will return the average dff trace (mean
-        of all cell dff traces) for an ophys experiment. If 
-        cell_specimen_id is specified then will return the 
-        dff trace for that single cell specimen id. 
+        of all cell dff traces) for an ophys experiment. If
+        cell_specimen_id is specified then will return the
+        dff trace for that single cell specimen id.
 
     Parameters
     ----------
-    ophysObject : (BehaviorOphysExperiment) 
+    ophysObject : (BehaviorOphysExperiment)
         Object provided via allensdk.brain_observatory
         module
     cell_specimen_id : int
@@ -120,13 +122,13 @@ def get_dff_trace_timeseries(ophysObject, cell_specimen_id = None):
         dff_trace, timestamps (sec)
     """
     dff_traces_df = ophysObject.dff_traces.reset_index()
-    
-    if cell_specimen_id == None:
+    if cell_specimen_id is None:
         dff = get_all_cells_mean_dff(dff_traces_df)
     else:
         dff = get_cell_dff(dff_traces_df, cell_specimen_id)
     timestamps = ophysObject.ophys_timestamps
     return dff, timestamps
+
 
 def get_all_cells_dff(dff_traces_df):
     """gets the dff traces for all cells
@@ -144,8 +146,9 @@ def get_all_cells_dff(dff_traces_df):
         array of arrays with each second level array containing
         the dff timeseries values for a single cell
     """
-    dff_trace_array =  np.vstack(dff_traces_df['dff'].values)
+    dff_trace_array = np.vstack(dff_traces_df['dff'].values)
     return dff_trace_array
+
 
 def get_cell_dff(dff_traces_df, cell_specimen_id):
     """_summary_
@@ -164,10 +167,10 @@ def get_cell_dff(dff_traces_df, cell_specimen_id):
     array
        dff timeseries values for the given specified cell
     """
-    
-    cell_dff = dff_traces_df.loc[dff_traces_df["cell_specimen_id"] 
-        == cell_specimen_id, "dff"].values[0]
+
+    cell_dff = dff_traces_df.loc[dff_traces_df["cell_specimen_id"] == cell_specimen_id, "dff"].values[0]
     return cell_dff
+
 
 def get_all_cells_mean_dff(dff_traces_df):
     """gets the mean dff trace for all cells
@@ -186,13 +189,14 @@ def get_all_cells_mean_dff(dff_traces_df):
     mean_dff = util.average_df_timeseries_values(dff_traces_df, 'dff')
     return mean_dff
 
+
 def get_transparent_segmentation_mask(ophysObject):
-    """transforms the segmentation mask image to 
+    """transforms the segmentation mask image to
     make the background transparent
 
     Parameters
     ----------
-    ophysObject : (BehaviorOphysExperiment) 
+    ophysObject : (BehaviorOphysExperiment)
         Object provided via allensdk.brain_observatory
         module
     Returns
@@ -205,22 +209,9 @@ def get_transparent_segmentation_mask(ophysObject):
     transparent_mask[:] = np.nan
     transparent_mask[segmentation_mask[0] == 1] = 1
     return transparent_mask
-    
-def get_trials_data(ophysObject):
-    """Extract trials dataframe from Ophys Experiment Object
 
-    Args:
-        ophysObject : (BehaviorSesson, BehaviorOphysExperiment)
-        Object provided via allensdk.brain_observatory
-        module
 
-    Returns
-    -------
-    dataframe
-    """
-    return ophysObject.trials
-
-def get_trial_type(trials_df, trial_type, 
+def get_trial_type(trials_df, trial_type,
                    include_aborted):
     """filters the trials table to a specific trial type
 
@@ -234,7 +225,7 @@ def get_trial_type(trials_df, trial_type,
             "go": go trials (change presented)
             "catch": catch trials (no change presented)
     include_aborted : bool,
-        include aborted trials, 
+        include aborted trials,
     Returns
     -------
     pandas dataframe
@@ -242,20 +233,19 @@ def get_trial_type(trials_df, trial_type,
     """
     if trial_type == "all":
         if include_aborted is False:
-            filtered_trials = \
-            filtered_trials.loc[filtered_trials["aborted"] \
-            == False]
+            filtered_trials = trials_df.loc[trials_df["aborted"] == False]
         else:
             filtered_trials = trials_df
     else:
         filtered_trials = \
             trials_df.loc[trials_df[trial_type] == True]
-    return filtered_trials 
+    return filtered_trials
+
 
 def get_response_type(trials_df, response_type,
                       include_aborted):
     """filters the trials table to a specific mouse
-       behavior response type. 
+       behavior response type.
 
     Parameters
     ----------
@@ -265,7 +255,7 @@ def get_response_type(trials_df, response_type,
         options:
             "all": all responses
             "hit": "hit" responses, only occurs on go trial type
-            "miss": "miss" responses, only occurs on 
+            "miss": "miss" responses, only occurs on
                 go trial type
             "false_alarm": "false_alarm" responses,
                 only occurs on catch trial type
@@ -281,29 +271,26 @@ def get_response_type(trials_df, response_type,
     """
     if response_type == "all":
         if include_aborted is False:
-            filtered_trials = \
-            filtered_trials.loc[filtered_trials["aborted"] \
-            == False]
+            filtered_trials = trials_df.loc[trials_df["aborted"] == False]
         else:
             filtered_trials = trials_df
     else:
-        filtered_trials = \
-            trials_df.loc[trials_df[response_type] == True]
+        filtered_trials = trials_df.loc[trials_df[response_type] == True]
     return filtered_trials
 
 
 def get_trials_data(dataObject,
-                    trial_type = "all", response_type = "all",
-                    include_aborted_trials = True):
+                    trial_type="all", response_type="all",
+                    include_aborted_trials=True):
     """gets the trials dataframe attribute and can optionally
        filter for specific trial or behavior response types.
 
     Parameters
     ----------
-    dataObject : (BehaviorSesson, BehaviorOphysExperiment) 
+    dataObject : (BehaviorSesson, BehaviorOphysExperiment)
         Objects provided via allensdk.brain_observatory module
     trial_type : str, optional
-        by default "all", options: 
+        by default "all", options:
             "all": all trial types (both go and catch)
             "go": go trials (change presented)
             "catch": catch trials (no change presented)
@@ -311,7 +298,7 @@ def get_trials_data(dataObject,
         by default "all", options:
             "all": all responses
             "hit": "hit" responses, only occurs on go trial type
-            "miss": "miss" responses, only occurs on 
+            "miss": "miss" responses, only occurs on
                 go trial type
             "false_alarm": "false_alarm" responses,
                 only occurs on catch trial type
@@ -327,9 +314,9 @@ def get_trials_data(dataObject,
     """
     trials_df = dataObject.trials
     filtered_df = get_trial_type(trials_df,
-                                 trial_type = trial_type,
-                                 include_aborted = include_aborted_trials)
+                                 trial_type=trial_type,
+                                 include_aborted=include_aborted_trials)
     filtered_df = get_response_type(filtered_df,
-                                    response_type = response_type,
-                                    include_aborted = include_aborted_trials)
+                                    response_type=response_type,
+                                    include_aborted=include_aborted_trials)
     return filtered_df
