@@ -1,6 +1,6 @@
 
 import numpy as np
-import pandas as pd
+
 
 
 def average_df_timeseries_values(dataframe, values_column):
@@ -20,9 +20,9 @@ def average_df_timeseries_values(dataframe, values_column):
     array
         the averaged (mean) timeseries 
     """
-    values_array =  np.vstack(dataframe[values_column].values)
-    mean_trace = np.mean(values_array, axis = 0)
-    return  mean_trace
+    values_array = np.vstack(dataframe[values_column].values)
+    mean_trace = np.mean(values_array, axis=0)
+    return mean_trace
 
 
 # Precondition utilities
