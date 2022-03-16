@@ -238,7 +238,7 @@ def get_trial_type(trials_df, trial_type,
             filtered_trials = trials_df
     else:
         filtered_trials = \
-            trials_df.loc[trials_df[trial_type] == True]  
+            trials_df.loc[trials_df[trial_type] == True]
     return filtered_trials
 
 
