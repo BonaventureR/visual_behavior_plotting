@@ -1,4 +1,7 @@
-# colors are all hexidecimel 
+# Plotting style enforcment dictionaries
+# to provide colors and labels for different
+# data dimensions. Colors are all hexidecimel
+
 
 DATASTREAM_STYLE_DICT = {
     "licks":                  {"color": "#252525",
