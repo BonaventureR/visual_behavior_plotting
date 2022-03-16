@@ -113,7 +113,7 @@ def plot_segmentation_mask_overlay(ophysObject, projection_type="max",
         Object provided via allensdk.brain_observatory
         module
     projection_type : str, optional
-        by default "max",  options: 
+        by default "max",  options:
             "max" : maximum intensity projection
             "average" : average intensity projection
     ax : matplotlib.axes, optional
