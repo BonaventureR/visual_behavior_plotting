@@ -202,3 +202,4 @@ def plot_dff_heatmap(ophysObject, ax=None):
 
     # creating a color bar
     cb = plt.colorbar(color_ax, pad=0.015, label='dF/F')
+    return ax

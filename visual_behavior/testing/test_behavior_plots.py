@@ -28,17 +28,17 @@ def test_plot_behavioral_streams():
         assert(fig != None)
     
     decorator_plot_func()
-    assert(fig is None)
+    assert(ax is None)
     assert(True)
 
 def test_plot_running():
     fig = ax = None
     def decorator_plot_func():
         assert("running_speed" in pytest.experiment_data.list_data_attributes_and_methods() and "running_speed" in pytest.behavior_data.list_data_attributes_and_methods())
-        fig, ax = plot_running(pytest.experiment_data) # plotting
-        assert(fig != None)
-        fig, ax = plot_running(pytest.behavior_data) # plotting
-        assert(fig != None)
+        ax = plot_running(pytest.experiment_data) # plotting
+        assert(ax!= None)
+        ax = plot_running(pytest.behavior_data) # plotting
+        assert(ax != None)
     
     decorator_plot_func()
     assert(fig is None)
@@ -48,50 +48,50 @@ def test_plot_licks():
     fig = ax = None
     def decorator_plot_func():
         assert("licks" in pytest.experiment_data.list_data_attributes_and_methods() and "licks" in pytest.behavior_data.list_data_attributes_and_methods())
-        fig, ax = plot_licks(pytest.experiment_data) # plotting
-        assert(fig != None)
-        fig, ax = plot_licks(pytest.behavior_data) # plotting
-        assert(fig != None)
+        ax = plot_licks(pytest.experiment_data) # plotting
+        assert(ax != None)
+        ax = plot_licks(pytest.behavior_data) # plotting
+        assert(ax != None)
     
     decorator_plot_func()
-    assert(fig is None)
+    assert(ax is None)
     assert(True)
 
 def test_plot_rewards():
     fig = ax = None
     def decorator_plot_func():
         assert("rewards" in pytest.experiment_data.list_data_attributes_and_methods() and "rewards" in pytest.behavior_data.list_data_attributes_and_methods())
-        fig, ax = plot_rewards(pytest.experiment_data) # plotting
+        ax = plot_rewards(pytest.experiment_data) # plotting
         assert(fig != None)
-        fig, ax = plot_rewards(pytest.behavior_data) # plotting
+        ax = plot_rewards(pytest.behavior_data) # plotting
         assert(fig != None)
     
     decorator_plot_func()
-    assert(fig is None)
+    assert(ax is None)
     assert(True)
 
 def test_plot_stimuli():
     fig = ax = None
     def decorator_plot_func():
         assert("stimulus_presentations" in pytest.experiment_data.list_data_attributes_and_methods() and "stimulus_presentations" in pytest.behavior_data.list_data_attributes_and_methods())
-        fig, ax = plot_stimuli(pytest.experiment_data) # plotting
-        assert(fig != None)
-        fig, ax = plot_stimuli(pytest.behavior_data) # plotting
-        assert(fig != None)
+        ax = plot_stimuli(pytest.experiment_data) # plotting
+        assert(ax != None)
+        ax = plot_stimuli(pytest.behavior_data) # plotting
+        assert(ax != None)
     
     decorator_plot_func()
-    assert(fig is None)
+    assert(ax is None)
     assert(True)
 
 def test_plot_lick_raster():
     fig = ax = None
     def decorator_plot_func():
         assert("change_time" in pytest.experiment_data.list_data_attributes_and_methods() and "change_time" in pytest.behavior_data.list_data_attributes_and_methods())
-        fig, ax = plot_lick_raster(pytest.experiment_data) # plotting
-        assert(fig != None)
-        fig, ax = plot_lick_raster(pytest.behavior_data) # plotting
-        assert(fig != None)
+        ax = plot_lick_raster(pytest.experiment_data) # plotting
+        assert(ax != None)
+        ax = plot_lick_raster(pytest.behavior_data) # plotting
+        assert(ax != None)
     
     decorator_plot_func()
-    assert(fig is None)
+    assert(ax is None)
     assert(True)
