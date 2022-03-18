@@ -1,10 +1,12 @@
-import allensdk
-from allensdk.brain_observatory.behavior.behavior_project_cache import VisualBehaviorOphysProjectCache
-import matplotlib.pyplot as plt
+import sys,os
+import pytest
 import numpy as np
 import path as Path
-import pytest
-import sys,os
+import matplotlib.pyplot as plt
+
+import allensdk
+from allensdk.brain_observatory.behavior.behavior_project_cache import VisualBehaviorOphysProjectCache
+
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from plotting.behavior_plots import *
@@ -38,6 +40,19 @@ def test_plot_running():
         ax = plot_running(pytest.experiment_data) # plotting
         assert(ax!= None)
         ax = plot_running(pytest.behavior_data) # plotting
+        assert(ax != None)
+    
+    decorator_plot_func()
+    assert(fig is None)
+    assert(True)
+
+def test_plot_pupil_area():
+    fig = ax = None
+    def decorator_plot_func():
+        assert("eye_tracking" in pytest.experiment_data.list_data_attributes_and_methods() and "running_speed" in pytest.behavior_data.list_data_attributes_and_methods())
+        ax = plot_pupil_area(pytest.experiment_data) # plotting
+        assert(ax!= None)
+        ax = plot_pulil_area(pytest.behavior_data) # plotting
         assert(ax != None)
     
     decorator_plot_func()
