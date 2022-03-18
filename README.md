@@ -31,7 +31,7 @@ Activate the new environment:
 conda activate vb_plot
 ```
 
-Make the new environment visible in the Jupyter 
+Make the new environment visible in Jupyter 
 ```
 pip install ipykernel
 python -m ipykernel install --user --name vb_plot
