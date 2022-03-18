@@ -99,6 +99,7 @@ def plot_licks(dataObject, ax=None):
     ax.plot(licks, np.zeros_like(licks), marker="|",
             linestyle="none",
             color=DATASTREAM_STYLE_DICT['licks']['color'])  # noqa: F405
+    return ax
 
 
 def plot_rewards(dataObject, ax=None, reward_type="all"):
@@ -134,9 +135,10 @@ def plot_rewards(dataObject, ax=None, reward_type="all"):
             markersize=6,
             alpha=0.25,
     )
+    return ax
 
 
-def plot_stimuli(dataObject, ax):
+def plot_stimuli(dataObject, ax=None):
     """ plot stimuli as colored bars on specified axis
 
     Parameters
@@ -150,9 +152,13 @@ def plot_stimuli(dataObject, ax):
     ----------
     None
     """
+    if ax is None:
+        fig, ax = plt.subplots()
+        
     for _, stimulus in dataObject.stimulus_presentations.iterrows():
         ax.axvspan(stimulus["start_time"],
                    stimulus["stop_time"], alpha=0.5)
+    return ax
 
 
 def plot_pupil_area(dataObject, ax=None):
