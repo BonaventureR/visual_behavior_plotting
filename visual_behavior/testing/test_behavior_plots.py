@@ -97,16 +97,3 @@ def test_plot_stimuli():
     decorator_plot_func()
     assert(ax is None)
     assert(True)
-
-def test_plot_lick_raster():
-    fig = ax = None
-    def decorator_plot_func():
-        assert("change_time" in pytest.behavior_data.list_data_attributes_and_methods())
-        ax = plot_lick_raster(pytest.experiment_data) # plotting
-        assert(ax != None)
-        ax = plot_lick_raster(pytest.behavior_data) # plotting
-        assert(ax != None)
-    
-    decorator_plot_func()
-    assert(ax is None)
-    assert(True)
