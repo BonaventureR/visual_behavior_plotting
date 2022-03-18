@@ -12,7 +12,7 @@ def set_variables():
     data_storage_directory = Path("/./visual_behavior_ophys_cache_dir")
     cache = VisualBehaviorOphysProjectCache.from_s3_cache(cache_dir=data_storage_directory)
     pytest.experiment_data = cache.get_behavior_ophys_experiment(940433497)
-    assert("ophys_experiment_id" in pytest.experiment_data)
+    assert("ophys_experiment_id" in pytest.experiment_data.list_data_attributes_and_methods())
 
     return
 
@@ -22,8 +22,8 @@ def set_variables():
     cache = VisualBehaviorOphysProjectCache.from_s3_cache(cache_dir=data_storage_directory)
     pytest.experiment_data = cache.get_behavior_ophys_experiment(940433497)
     pytest.behavior_data = cache.get_behavior_session(870987812)
-    assert("ophys_experiment_id" in pytest.experiment_data)
-    assert("behavior_session_id" in pytest.behavior_data and "ophys_experiment_id" not in pytest.experiment_data)
+    assert("ophys_experiment_id" in pytest.experiment_data.list_data_attributes_and_methods())
+    assert("behavior_session_id" in pytest.behavior_data.list_data_attributes_and_methods() and "ophys_experiment_id" not in pytest.experiment_data.list_data_attributes_and_methods())
     return
 
 def test_get_lick_timestamps():
