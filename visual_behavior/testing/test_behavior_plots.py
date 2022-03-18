@@ -52,7 +52,7 @@ def test_plot_pupil_area():
         assert("eye_tracking" in pytest.experiment_data.list_data_attributes_and_methods() and "running_speed" in pytest.behavior_data.list_data_attributes_and_methods())
         ax = plot_pupil_area(pytest.experiment_data) # plotting
         assert(ax!= None)
-        ax = plot_pulil_area(pytest.behavior_data) # plotting
+        ax = plot_pupil_area(pytest.behavior_data) # plotting
         assert(ax != None)
     
     decorator_plot_func()

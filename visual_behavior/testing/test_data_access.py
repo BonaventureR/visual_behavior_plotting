@@ -43,10 +43,10 @@ def test_get_running_speed():
     # assert('pupil_area' in res)
 
 def test_get_pupil_area_timeseries():
-    res, timestamps = data.get_pupil(pytest.experiment_data)
+    res, timestamps = data.get_pupil_area_timeseries(pytest.experiment_data)
     assert(len(res) > 0)
 
 def test_get_dff_trace():
-    res, timestamps = data.get_dff_trace(pytest.experiment_data)
+    res, timestamps = data.get_dff_trace_timeseries(pytest.experiment_data)
     assert(len(res) > 0)
     # assert('dff' in res)
