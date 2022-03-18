@@ -11,7 +11,7 @@ from plotting.behavior_plots import *
 
 @pytest.fixture(autouse=True)
 def set_variables():
-    data_storage_directory = Path("/./visual_behavior_ophys_cache_dir")
+    data_storage_directory = os.path.join(".","visual_behavior_ophys_cache_dir")
     cache = VisualBehaviorOphysProjectCache.from_s3_cache(cache_dir=data_storage_directory)
     pytest.experiment_data = cache.get_behavior_ophys_experiment(940433497)
     pytest.behavior_data = cache.get_behavior_session(870987812)

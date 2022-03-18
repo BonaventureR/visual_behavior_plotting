@@ -7,18 +7,10 @@ import pytest
 
 from plotting.neural_plots import *
 
-@pytest.fixture(autouse=True)
-def set_variables():
-    data_storage_directory = Path("/./visual_behavior_ophys_cache_dir")
-    cache = VisualBehaviorOphysProjectCache.from_s3_cache(cache_dir=data_storage_directory)
-    pytest.experiment_data = cache.get_behavior_ophys_experiment(940433497)
-    assert("ophys_experiment_id" in pytest.experiment_data.list_data_attributes_and_methods())
-
-    return
 
 @pytest.fixture(autouse=True)
 def set_variables():
-    data_storage_directory = Path("/./visual_behavior_ophys_cache_dir")
+    data_storage_directory = os.path.join(".","visual_behavior_ophys_cache_dir")
     cache = VisualBehaviorOphysProjectCache.from_s3_cache(cache_dir=data_storage_directory)
     pytest.experiment_data = cache.get_behavior_ophys_experiment(940433497)
     pytest.behavior_data = cache.get_behavior_session(870987812)

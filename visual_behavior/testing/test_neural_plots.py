@@ -9,17 +9,17 @@ from plotting.neural_plots import *
 
 @pytest.fixture(autouse=True)
 def set_variables():
-    data_storage_directory = Path("/./visual_behavior_ophys_cache_dir")
+    data_storage_directory = os.path.join(".","visual_behavior_ophys_cache_dir")
     cache = VisualBehaviorOphysProjectCache.from_s3_cache(cache_dir=data_storage_directory)
     pytest.experiment_data = cache.get_behavior_ophys_experiment(940433497)
-    assert("ophys_experiment_id" in pytest.experiment_data)
+    assert("ophys_experiment_id" in pytest.experiment_data.list_data_attributes_and_methods())
 
     return
 
 def test_plot_max_intensity_projection():
     fig, ax = None
     def decorator_plot_func():
-        assert('max_projection' in pytest.experiment_data)
+        assert('max_projection' in pytest.experiment_data.list_data_attributes_and_methods())
         fig, ax = plot_max_intensity_projection(pytest.experiment_data) # plotting
         assert(fig != None)
     
@@ -30,7 +30,7 @@ def test_plot_max_intensity_projection():
 def test_plot_segmentation_masks():
     fig, ax = None
     def decorator_plot_func():
-        assert('segmentation_mask_image' in pytest.experiment_data)
+        assert('segmentation_mask_image' in pytest.experiment_data.list_data_attributes_and_methods())
         fig, ax = plot_segmentation_masks(pytest.experiment_data) # plotting
         assert(fig != None)
 
@@ -41,7 +41,7 @@ def test_plot_segmentation_masks():
 def test_plot_segmentation_mask_overlay():
     fig, ax = None
     def decorator_plot_func():
-        assert('segmentation_mask_image' in pytest.experiment_data)
+        assert('segmentation_mask_image' in pytest.experiment_data.list_data_attributes_and_methods())
         fig, ax = plot_segmentation_mask_overlay(pytest.experiment_data) # plotting
         assert(fig != None)
     
@@ -52,7 +52,7 @@ def test_plot_segmentation_mask_overlay():
 def test_plot_dff():
     fig, ax = None
     def decorator_plot_func():
-        assert('dff' in pytest.experiment_data) 
+        assert('dff' in pytest.experiment_data.list_data_attributes_and_methods()) 
         fig, ax = plot_dff(pytest.experiment_data) # plotting
         assert(fig != None)
     
@@ -63,7 +63,7 @@ def test_plot_dff():
 def test_plot_dff_heatmap():
     fig, ax = None
     def decorator_plot_func():
-        assert('dff' in pytest.experiment_data) 
+        assert('dff' in pytest.experiment_data.list_data_attributes_and_methods()) 
         fig, ax = plot_dff_heatmap(pytest.experiment_data) # plotting
         assert(fig != None)
     
