@@ -22,7 +22,8 @@ setup(name='vb_plotting',
           'pytest',
           'pathlib',
           'path',
-          'allensdk>=2.13.3'
+          'allensdk>=2.13.3',
+          'coverage'
           ],
       tests_require=['flake8'],
 

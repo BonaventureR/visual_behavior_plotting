@@ -42,6 +42,11 @@ Install visual_behavior_plotting in the virtual environment for use in jupyter n
 cd visual_behavior_plotting
 pip install -e .
 ```
+# Running Test cases and checking coverage
+
+```
+coverage run -m pytest visual_behavior/testing
+```
 
 # Examples and Use Case:
 A more in depth jupyter notebook tutorial of how to load Allen SDK data and plot it using visual_behavior_plotting can be found here: [Visual Behavior Plotting Tutorial](examples/visual_behavior_plotting_tutorial.ipynb).
