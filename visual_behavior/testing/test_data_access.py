@@ -1,9 +1,11 @@
-import allensdk
-from allensdk.brain_observatory.behavior.behavior_project_cache import VisualBehaviorOphysProjectCache
-import matplotlib.pyplot as plt
+
+import pytest
 import numpy as np
 import path as Path
-import pytest
+import matplotlib.pyplot as plt
+
+import allensdk
+from allensdk.brain_observatory.behavior.behavior_project_cache import VisualBehaviorOphysProjectCache
 
 import data_access as data
 

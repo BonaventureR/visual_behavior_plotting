@@ -1,11 +1,13 @@
+import os,sys
+import pytest
+import numpy as np
+import path as Path
+import matplotlib.pyplot as plt
+
 import allensdk
 from allensdk.brain_observatory.behavior.behavior_project_cache import VisualBehaviorOphysProjectCache
-import matplotlib.pyplot as plt
-import numpy as np
-import os
-import path as Path
-import pytest
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from plotting import neural_plots
 
 @pytest.fixture(autouse=True)
