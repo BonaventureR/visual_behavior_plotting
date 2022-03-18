@@ -17,7 +17,7 @@ def set_variables():
     return
 
 def test_plot_max_intensity_projection():
-    fig, ax = None
+    fig = ax = None
     def decorator_plot_func():
         assert('max_projection' in pytest.experiment_data.list_data_attributes_and_methods())
         fig, ax = plot_max_intensity_projection(pytest.experiment_data) # plotting
@@ -28,7 +28,7 @@ def test_plot_max_intensity_projection():
     assert(True)
 
 def test_plot_segmentation_masks():
-    fig, ax = None
+    fig = ax = None
     def decorator_plot_func():
         assert('segmentation_mask_image' in pytest.experiment_data.list_data_attributes_and_methods())
         fig, ax = plot_segmentation_masks(pytest.experiment_data) # plotting
@@ -39,7 +39,7 @@ def test_plot_segmentation_masks():
     assert(True)
 
 def test_plot_segmentation_mask_overlay():
-    fig, ax = None
+    fig = ax = None
     def decorator_plot_func():
         assert('segmentation_mask_image' in pytest.experiment_data.list_data_attributes_and_methods())
         fig, ax = plot_segmentation_mask_overlay(pytest.experiment_data) # plotting
@@ -50,7 +50,7 @@ def test_plot_segmentation_mask_overlay():
     assert(True)
 
 def test_plot_dff():
-    fig, ax = None
+    fig = ax = None
     def decorator_plot_func():
         assert('dff' in pytest.experiment_data.list_data_attributes_and_methods()) 
         fig, ax = plot_dff(pytest.experiment_data) # plotting
@@ -61,7 +61,7 @@ def test_plot_dff():
     assert(True)
 
 def test_plot_dff_heatmap():
-    fig, ax = None
+    fig = ax = None
     def decorator_plot_func():
         assert('dff' in pytest.experiment_data.list_data_attributes_and_methods()) 
         fig, ax = plot_dff_heatmap(pytest.experiment_data) # plotting
