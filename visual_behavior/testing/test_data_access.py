@@ -1,4 +1,5 @@
 
+import os,sys
 import pytest
 import numpy as np
 import path as Path
@@ -6,7 +7,7 @@ import matplotlib.pyplot as plt
 
 import allensdk
 from allensdk.brain_observatory.behavior.behavior_project_cache import VisualBehaviorOphysProjectCache
-
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import data_access as data
 
 
