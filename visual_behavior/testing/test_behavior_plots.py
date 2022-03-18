@@ -24,7 +24,7 @@ def test_plot_behavioral_streams():
     def decorator_plot_func():
         fig, ax = plot_behavioral_streams(pytest.experiment_data) # plotting
         assert(fig != None)
-        fig, ax = plot_behavioral_streams(pytest.behavior_data) # plottinga
+        fig, ax = plot_behavioral_streams(pytest.behavior_data) # plotting
         assert(fig != None)
     
     decorator_plot_func()
@@ -37,7 +37,7 @@ def test_plot_running():
         assert("running_speed" in pytest.experiment_data.list_data_attributes_and_methods() and "running_speed" in pytest.behavior_data.list_data_attributes_and_methods())
         fig, ax = plot_running(pytest.experiment_data) # plotting
         assert(fig != None)
-        fig, ax = plot_running(pytest.behavior_data) # plottinga
+        fig, ax = plot_running(pytest.behavior_data) # plotting
         assert(fig != None)
     
     decorator_plot_func()
@@ -63,7 +63,7 @@ def test_plot_rewards():
         assert("rewards" in pytest.experiment_data.list_data_attributes_and_methods() and "rewards" in pytest.behavior_data.list_data_attributes_and_methods())
         fig, ax = plot_rewards(pytest.experiment_data) # plotting
         assert(fig != None)
-        fig, ax = plot_rewards(pytest.behavior_data) # plottinga
+        fig, ax = plot_rewards(pytest.behavior_data) # plotting
         assert(fig != None)
     
     decorator_plot_func()
@@ -89,7 +89,7 @@ def test_plot_lick_raster():
         assert("change_time" in pytest.experiment_data.list_data_attributes_and_methods() and "change_time" in pytest.behavior_data.list_data_attributes_and_methods())
         fig, ax = plot_lick_raster(pytest.experiment_data) # plotting
         assert(fig != None)
-        fig, ax = plot_lick_raster(pytest.behavior_data) # plottinga
+        fig, ax = plot_lick_raster(pytest.behavior_data) # plotting
         assert(fig != None)
     
     decorator_plot_func()
