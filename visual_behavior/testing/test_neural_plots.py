@@ -2,6 +2,7 @@ import allensdk
 from allensdk.brain_observatory.behavior.behavior_project_cache import VisualBehaviorOphysProjectCache
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 import path as Path
 import pytest
 
