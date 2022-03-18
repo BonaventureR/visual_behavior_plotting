@@ -138,7 +138,7 @@ def plot_rewards(dataObject, ax=None, reward_type="all"):
     return ax
 
 
-def plot_stimuli(dataObject, ax):
+def plot_stimuli(dataObject, ax=None):
     """ plot stimuli as colored bars on specified axis
 
     Parameters
@@ -152,6 +152,9 @@ def plot_stimuli(dataObject, ax):
     ----------
     None
     """
+    if ax is None:
+        fig, ax = plt.subplots()
+        
     for _, stimulus in dataObject.stimulus_presentations.iterrows():
         ax.axvspan(stimulus["start_time"],
                    stimulus["stop_time"], alpha=0.5)

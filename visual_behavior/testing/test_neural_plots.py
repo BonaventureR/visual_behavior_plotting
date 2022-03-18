@@ -5,7 +5,7 @@ import numpy as np
 import path as Path
 import pytest
 
-from plotting.neural_plots import *
+from plotting import neural_plots
 
 @pytest.fixture(autouse=True)
 def set_variables():
@@ -20,7 +20,7 @@ def test_plot_max_intensity_projection():
     fig = ax = None
     def decorator_plot_func():
         assert('max_projection' in pytest.experiment_data.list_data_attributes_and_methods())
-        ax = plot_max_intensity_projection(pytest.experiment_data) # plotting
+        ax = neural_plots.plot_max_intensity_projection(pytest.experiment_data) # plotting
         assert(ax != None)
     
     decorator_plot_func()
@@ -31,7 +31,7 @@ def test_plot_segmentation_masks():
     fig = ax = None
     def decorator_plot_func():
         assert('segmentation_mask_image' in pytest.experiment_data.list_data_attributes_and_methods())
-        ax = plot_segmentation_masks(pytest.experiment_data) # plotting
+        ax = neural_plots.plot_segmentation_masks(pytest.experiment_data) # plotting
         assert(ax != None)
 
     decorator_plot_func()
@@ -42,7 +42,7 @@ def test_plot_segmentation_mask_overlay():
     fig = ax = None
     def decorator_plot_func():
         assert('segmentation_mask_image' in pytest.experiment_data.list_data_attributes_and_methods())
-        ax = plot_segmentation_mask_overlay(pytest.experiment_data) # plotting
+        ax = neural_plots.plot_segmentation_mask_overlay(pytest.experiment_data) # plotting
         assert(ax != None)
     
     decorator_plot_func()
@@ -52,8 +52,8 @@ def test_plot_segmentation_mask_overlay():
 def test_plot_dff():
     fig = ax = None
     def decorator_plot_func():
-        assert('dff' in pytest.experiment_data.list_data_attributes_and_methods()) 
-        ax = plot_dff(pytest.experiment_data) # plotting
+        assert('dff_traces' in pytest.experiment_data.list_data_attributes_and_methods()) 
+        ax = neural_plots.plot_dff(pytest.experiment_data) # plotting
         assert(ax != None)
     
     decorator_plot_func()
@@ -63,8 +63,8 @@ def test_plot_dff():
 def test_plot_dff_heatmap():
     fig = ax = None
     def decorator_plot_func():
-        assert('dff' in pytest.experiment_data.list_data_attributes_and_methods()) 
-        ax = plot_dff_heatmap(pytest.experiment_data) # plotting
+        assert('dff_traces' in pytest.experiment_data.list_data_attributes_and_methods()) 
+        ax = neural_plots.plot_dff_heatmap(pytest.experiment_data) # plotting
         assert(ax != None)
     
     decorator_plot_func()

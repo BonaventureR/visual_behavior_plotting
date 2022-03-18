@@ -20,21 +20,27 @@ def set_variables():
 
 def test_get_lick_timestamps():
     res = data.get_lick_timestamps(pytest.experiment_data)
-    assert('licks' in res)
+    assert(res is type(list))
+    # assert('licks' in res)
     res = data.get_lick_timestamps(pytest.behavior_data)
-    assert('licks' in res)
+    assert(res is type(list))
+    # assert('licks' in res)
 
 def test_get_reward_timestamps():
     res = data.get_reward_timestamps(pytest.experiment_data)
-    assert('rewards' in res)
+    # assert('rewards' in res)
+    assert(res is type(list))
     res = data.get_reward_timestamps(pytest.behavior_data)
-    assert('rewards' in res)
+    assert(res is type(list))
+    # assert('rewards' in res)
 
 def test_get_running_speed():
     res, timestamps = data.get_pupil_area(pytest.experiment_data)
-    assert('pupil_area' in res)
+    assert(res is type(list))
+    # assert('pupil_area' in res)
 
 
 def test_get_dff_trace():
     res, timestamps = data.get_dff_trace(pytest.experiment_data)
-    assert('dff' in res)
+    assert(res is type(list))
+    # assert('dff' in res)
