@@ -23,7 +23,8 @@ setup(name='vb_plotting',
           'pathlib',
           'path',
           'allensdk>=2.13.3',
-          'coverage'
+          'coverage',
+          'markupsafe==2.0.1'
           ],
       tests_require=['flake8'],
 
