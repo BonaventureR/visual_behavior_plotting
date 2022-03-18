@@ -17,11 +17,11 @@ def set_variables():
 
     return
 
-def test_plot_max_intensity_projection():
+def test_plot_max_projection():
     fig = ax = None
     def decorator_plot_func():
         assert('max_projection' in pytest.experiment_data.list_data_attributes_and_methods())
-        ax = neural_plots.plot_max_intensity_projection(pytest.experiment_data) # plotting
+        ax = neural_plots.plot_max_projection(pytest.experiment_data) # plotting
         assert(ax != None)
     
     decorator_plot_func()
