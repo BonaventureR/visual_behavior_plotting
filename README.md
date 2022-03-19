@@ -46,6 +46,7 @@ pip install -e .
 
 ```
 coverage run -m pytest visual_behavior/testing
+coverage report -m
 ```
 
 # Examples and Use Case:
