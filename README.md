@@ -1,3 +1,6 @@
+
+![example workflow](https://github.com/DowntonCrabby/visual_behavior_plotting/actions/workflows/python-publish.yml/badge.svg)
+
 # visual_behavior_plotting package
 
 

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='vb_plotting',
-      version='0.1.7',
+      version='0.1.8',
       description='Utilities for loading and visualizing data from the Allen Institute Mindscope Visual Behavior Project',  # noqa: E501
       url='https://github.com/DowntonCrabby/visual_behavior_plotting',
       author='University of Washington, MSDS Data515 NeuroViz project group',
