@@ -20,6 +20,11 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.9
+    - name: Run test suite
+      run: >-
+        python -m
+        pytest
+        test/
     - name: Install pypa/build
       run: >-
         python -m
