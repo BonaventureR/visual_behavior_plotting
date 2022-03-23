@@ -36,7 +36,7 @@ jobs:
       run: >-
         python -m
         pytest
-        test/
+        visual_behavior/testing/
     - name: Build a binary wheel and a source tarball
       run: >-
         python -m
