@@ -26,12 +26,13 @@ jobs:
         pip install
         build
         --user
-    - name: Install pypa/pytest
+    - name: Install python dependencies
       run: >-
         python -m
         pip install
-        pytest
+        -e
         --user
+        .
     - name: Run test suite
       run: >-
         python -m
